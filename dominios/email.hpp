@@ -1,18 +1,19 @@
-#ifndef DATE_HPP
-#define DATE_HPP
+#ifndef EMAIL_HPP
+#define EMAIL_HPP
 
 #include <string>
 #include <stdexcept>
 
 using namespace std;
 
-class Date {
+class Email {
     private:
-        string date;
+        string email;
         void validate(string);
     public:
         void set(string);
         string get() const;
+
 };
 
 #endif
