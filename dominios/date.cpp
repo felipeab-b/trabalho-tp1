@@ -1,8 +1,33 @@
 #include "date.hpp"
 
-void Date::validate(int day, int month, int year) {
+void Date::validate(string date) {
+    int pos1 = date.find('/');
+    if(pos1 == string::npos) {
+        throw invalid_argument("Invalid format");
+}
 
-    if (year < 2000 || year > 2099) {
+    int pos2 = date.find('/', pos1 + 1);
+    if(pos2 == string::npos) {
+        throw invalid_argument("Invalid format");
+}
+
+    if (pos1 != 1 && pos1 != 2){
+        throw invalid_argument("Invalid format");
+    }
+    int day = stoi(date.substr(0, pos1));
+
+    if((pos2 - pos1 - 1) != 2){ 
+        throw invalid_argument("Invalid format");
+    }
+    int month = stoi(date.substr(pos1 + 1, pos2 - pos1 - 1));
+    
+    if((date.size() - pos2 - 1) != 4) {
+        throw invalid_argument("invalid format");
+    }
+    int year = stoi(date.substr(pos2 + 1));
+
+
+    if (year < 2000 || year > 2999) {
         throw invalid_argument("Invalid year");
     }
     if (month < 1 || month > 12) {
@@ -26,33 +51,11 @@ void Date::validate(int day, int month, int year) {
     }
 }
 
-void Date::set(int day, int month, int year) {
-    validate(day, month, year);
-    this->day = day;
-    this->month = month;
-    this->year = year;
+void Date::set(string date) {
+    validate(date);
+    this->date = date;
 }
 
 string Date::get() const {
-    string formattedDay;
-    string formattedMonth;
-    string formattedYear = to_string(year);
-
-    if (day < 10) {
-        formattedDay = "00";
-        formattedDay[0] = '0';
-        formattedDay[1] = '0' + day;
-    } else {
-        formattedDay = to_string(day);
-    }
-
-    if (month < 10) {
-        formattedMonth = "00";
-        formattedMonth[0] = '0';
-        formattedMonth[1] = '0' + month;
-    } else {
-        formattedMonth = to_string(month);
-    }
-
-    return formattedDay + "/" + formattedMonth + "/" + formattedYear;
+    return date;
 }
