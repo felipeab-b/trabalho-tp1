@@ -3,7 +3,7 @@
 - [X] **Código**
   - 5 caracteres: 2 letras maiúsculas (A-Z) + 3 dígitos (0-9)
 
-- [ ] **Data**
+- [X] **Data**
   - Formato DIA/MÊS/ANO
   - Dia entre 1 e 31
   - Mês entre 01 e 12
