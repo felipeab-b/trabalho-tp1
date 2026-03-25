@@ -10,7 +10,7 @@
   - Ano entre 2000 e 2999
   - Considera anos bissextos
 
-- [ ] **Email**
+- [X] **Email**
   - Formato: parte-local@domínio
   - Parte local válida (letras, dígitos, ponto, hífen)
   - Não inicia/termina com ponto ou hífen
