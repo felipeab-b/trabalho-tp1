@@ -19,7 +19,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 | `Text` | `text.hpp` / `text.cpp` | ⬜ Pendente |
 | `Password` | `password.hpp` / `password.cpp` | ⬜ Pendente |
 | `Date` | `date.hpp` / `date.cpp` | ✅ Feito |
-| `Email` | `email.hpp` / `email.cpp` | ⬜ Pendente |
+| `Email` | `email.hpp` / `email.cpp` | ✅ Feito |
 | `Time` | `time.hpp` / `time.cpp` | ⬜ Pendente |
 
 ### Entidades
@@ -63,3 +63,4 @@ projeto/
 | Nome | Artefatos |
 |---|---|
 | Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp` |
+| Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp` |
