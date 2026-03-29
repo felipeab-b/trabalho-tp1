@@ -1,47 +1,66 @@
-# Classes de Domínios
+# TP1 — Sistema de Gerenciamento de Projetos Scrum
 
-- [X] **Código**
-  - 5 caracteres: 2 letras maiúsculas (A-Z) + 3 dígitos (0-9)
+Trabalho prático da disciplina **Técnicas de Programação 1** — UnB  
+Linguagem: C++ | Ambiente: Code::Blocks
 
-- [X] **Data**
-  - Formato DIA/MÊS/ANO
-  - Dia entre 1 e 31
-  - Mês entre 01 e 12
-  - Ano entre 2000 e 2999
-  - Considera anos bissextos
+---
 
-- [X] **Email**
-  - Formato: parte-local@domínio
-  - Parte local válida (letras, dígitos, ponto, hífen)
-  - Não inicia/termina com ponto ou hífen
-  - Domínio válido (partes separadas por ponto)
-  - Máximo: 64 (local) e 255 (domínio)
+## Progresso
 
-- [X] **Estado**
-  - Valor: A FAZER, FAZENDO ou FEITO
+### Domínios
 
-- [X] **Nome**
-  - Até 10 caracteres
-  - Apenas letras ou espaço
-  - Não começa/termina com espaço
+| Classe | Arquivo | Status |
+|---|---|---|
+| `Code` | `code.hpp` / `code.cpp` | ✅ Feito |
+| `State` | `state.hpp` / `state.cpp` | ✅ Feito |
+| `Role` | `role.hpp` / `role.cpp` | ✅ Feito |
+| `Priority` | `priority.hpp` / `priority.cpp` | ⬜ Pendente |
+| `Name` | `name.hpp` / `name.cpp` | ✅ Feito |
+| `Text` | `text.hpp` / `text.cpp` | ⬜ Pendente |
+| `Password` | `password.hpp` / `password.cpp` | ⬜ Pendente |
+| `Date` | `date.hpp` / `date.cpp` | ✅ Feito |
+| `Email` | `email.hpp` / `email.cpp` | ✅ Feito |
+| `Time` | `time.hpp` / `time.cpp` | ⬜ Pendente |
 
-- [X] **Papel**
-  - Valor: DESENVOLVEDOR, MESTRE SCRUM ou PROPRIETARIO DE PRODUTO
+### Entidades
 
-- [ ] **Prioridade**
-  - Valor: ALTA, MEDIA ou BAIXA
+| Classe | Arquivo | Status |
+|---|---|---|
+| `Person` | `person.hpp` / `person.cpp` | ⬜ Pendente |
+| `Project` | `project.hpp` / `project.cpp` | ⬜ Pendente |
+| `SprintPlan` | `sprintplan.hpp` / `sprintplan.cpp` | ⬜ Pendente |
+| `UserStory` | `userstory.hpp` / `userstory.cpp` | ⬜ Pendente |
 
-- [ ] **Senha**
-  - 6 caracteres
-  - Letras e dígitos
-  - Alternância entre letra e dígito
-  - Pelo menos: 1 minúscula, 1 maiúscula, 1 número
+---
 
-- [ ] **Tempo**
-  - Valor entre 1 e 365
+## Estrutura do Projeto
 
-- [ ] **Texto**
-  - Até 40 caracteres
-  - Letras, dígitos, vírgula, ponto e espaço
-  - Sem sequência inválida de pontuação
-  - Não começa/termina com espaço ou pontuação
+```
+projeto/
+├── dominios/
+│   ├── code.hpp / code.cpp
+│   ├── state.hpp / state.cpp
+│   ├── role.hpp / role.cpp
+│   ├── priority.hpp / priority.cpp
+│   ├── name.hpp / name.cpp
+│   ├── text.hpp / text.cpp
+│   ├── password.hpp / password.cpp
+│   ├── date.hpp / date.cpp
+│   ├── email.hpp / email.cpp
+│   └── time.hpp / time.cpp
+├── entidades/
+│   ├── person.hpp / person.cpp
+│   ├── project.hpp / project.cpp
+│   ├── sprintplan.hpp / sprintplan.cpp
+│   └── userstory.hpp / userstory.cpp
+└── main.cpp
+```
+
+---
+
+## Membros da Equipe
+ 
+| Nome | Artefatos |
+|---|---|
+| Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp` |
+| Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp` |
