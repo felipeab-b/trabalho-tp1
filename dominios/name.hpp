@@ -1,5 +1,5 @@
-#ifndef EMAIL_HPP
-#define EMAIL_HPP
+#ifndef NAME_HPP
+#define NAME_HPP
 
 #include <string>
 #include <stdexcept>
@@ -7,14 +7,13 @@
 
 using namespace std;
 
-class Email {
+class Name {
     private:
-        string email;
+        string name;
         void validate(string);
     public:
         void set(string);
         string get() const;
-
 };
 
 #endif
