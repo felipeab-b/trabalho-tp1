@@ -20,7 +20,7 @@
 - [X] **Estado**
   - Valor: A FAZER, FAZENDO ou FEITO
 
-- [ ] **Nome**
+- [X] **Nome**
   - Até 10 caracteres
   - Apenas letras ou espaço
   - Não começa/termina com espaço
