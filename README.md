@@ -26,7 +26,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 
 | Classe | Arquivo | Status |
 |---|---|---|
-| `Person` | `person.hpp` / `person.cpp` | ⬜ Pendente |
+| `Person` | `person.hpp` / `person.cpp` | ✅ Feito |
 | `Project` | `project.hpp` / `project.cpp` | ⬜ Pendente |
 | `SprintPlan` | `sprintplan.hpp` / `sprintplan.cpp` | ⬜ Pendente |
 | `UserStory` | `userstory.hpp` / `userstory.cpp` | ⬜ Pendente |
