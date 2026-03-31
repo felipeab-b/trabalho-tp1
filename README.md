@@ -14,7 +14,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 | `Code` | `code.hpp` / `code.cpp` | ✅ Feito |
 | `State` | `state.hpp` / `state.cpp` | ✅ Feito |
 | `Role` | `role.hpp` / `role.cpp` | ✅ Feito |
-| `Priority` | `priority.hpp` / `priority.cpp` | ⬜ Pendente |
+| `Priority` | `priority.hpp` / `priority.cpp` | ✅ Feito |
 | `Name` | `name.hpp` / `name.cpp` | ✅ Feito |
 | `Text` | `text.hpp` / `text.cpp` | ⬜ Pendente |
 | `Password` | `password.hpp` / `password.cpp` | ⬜ Pendente |
@@ -64,3 +64,4 @@ projeto/
 |---|---|
 | Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp` |
 | Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp` |
+| Eduardo Campos | `priority.hpp/cpp` |
