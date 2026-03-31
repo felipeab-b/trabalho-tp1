@@ -17,7 +17,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 | `Priority` | `priority.hpp` / `priority.cpp` | ⬜ Pendente |
 | `Name` | `name.hpp` / `name.cpp` | ✅ Feito |
 | `Text` | `text.hpp` / `text.cpp` | ⬜ Pendente |
-| `Password` | `password.hpp` / `password.cpp` | ⬜ Pendente |
+| `Password` | `password.hpp` / `password.cpp` | ✅ Feito  |
 | `Date` | `date.hpp` / `date.cpp` | ✅ Feito |
 | `Email` | `email.hpp` / `email.cpp` | ✅ Feito |
 | `Time` | `time.hpp` / `time.cpp` | ⬜ Pendente |
