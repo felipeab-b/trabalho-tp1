@@ -20,7 +20,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 | `Password` | `password.hpp` / `password.cpp` | ⬜ Pendente |
 | `Date` | `date.hpp` / `date.cpp` | ✅ Feito |
 | `Email` | `email.hpp` / `email.cpp` | ✅ Feito |
-| `Time` | `time.hpp` / `time.cpp` | ⬜ Pendente |
+| `Time` | `time.hpp` / `time.cpp` | ✅ Feito |
 
 ### Entidades
 
