@@ -12,7 +12,7 @@ class Password {
         void validate(std::string);
     public:
         void set(std::string);
-        string get();
+        string get() const;
 };
 
 #endif

@@ -31,6 +31,6 @@ void Password::set(string password) {
     this->password = password;
 }
 
-string Password::get() {
+string Password::get() const{
     return password;
 }
