@@ -62,5 +62,5 @@ projeto/
  
 | Nome | Artefatos |
 |---|---|
-| Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp` |
+| Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp`, `password.hpp/cpp`, `person.hpp/cpp` |
 | Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp` |
