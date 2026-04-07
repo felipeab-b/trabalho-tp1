@@ -1,19 +1,13 @@
 #ifndef NAME_HPP
 #define NAME_HPP
 
-#include <string>
+#include "dominios.hpp"
 #include <stdexcept>
 #include <cctype>
 
-using namespace std;
-
-class Name {
+class Name: public Dominio {
     private:
-        string name;
-        void validate(string);
-    public:
-        void set(string);
-        string get() const;
+        void validate(std::string) override;
 };
 
 #endif

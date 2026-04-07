@@ -1,18 +1,14 @@
 #ifndef DATE_HPP
 #define DATE_HPP
 
-#include <string>
+#include "dominios.hpp"
 #include <stdexcept>
 
 using namespace std;
 
-class Date {
+class Date:public Dominio {
     private:
-        string date;
-        void validate(string);
-    public:
-        void set(string);
-        string get() const;
+        void validate(string) override;
 };
 
 #endif

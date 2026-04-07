@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 class Role: public Dominio {
-    protected:
+    private:
         void validate(std::string) override;
 };
 

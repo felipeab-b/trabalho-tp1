@@ -50,12 +50,3 @@ void Date::validate(string date) {
         throw invalid_argument("Invalid day");
     }
 }
-
-void Date::set(string date) {
-    validate(date);
-    this->date = date;
-}
-
-string Date::get() const {
-    return date;
-}

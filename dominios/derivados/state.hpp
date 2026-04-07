@@ -1,18 +1,12 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include <string>
+#include "dominios.hpp"
 #include <stdexcept>
 
-using namespace std;
-
-class State {
+class State: public Dominio {
     private:
-        string state;
-        void validate(string);
-    public:
-        void set(string);
-        string get() const;
+        void validate(std::string) override;
 };
 
 #endif

@@ -1,18 +1,14 @@
 #ifndef CODE_HPP
 #define CODE_HPP
 
-#include <string>
+#include "dominios.hpp"
 #include <stdexcept>
 
 using namespace std;
 
-class Code {
+class Code:public Dominio {
     private:
-        string code;
-        void validate(string);
-    public:
-        void set(string);
-        string get() const;
+        void validate(string) override;
 };
 
 #endif

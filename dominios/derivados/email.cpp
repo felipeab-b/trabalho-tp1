@@ -75,11 +75,3 @@ void Email::validate(string email) {
     }
 };
 
-void Email::set(string email) {
-    validate(email);
-    this->email = email;
-};
-
-string Email::get() const {
-    return email;
-}

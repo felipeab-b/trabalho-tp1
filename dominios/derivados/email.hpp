@@ -1,20 +1,15 @@
 #ifndef EMAIL_HPP
 #define EMAIL_HPP
 
-#include <string>
+#include "dominios.hpp"
 #include <stdexcept>
 #include <cctype>
 
 using namespace std;
 
-class Email {
+class Email:public Dominio {
     private:
-        string email;
-        void validate(string);
-    public:
-        void set(string);
-        string get() const;
-
+        void validate(std::string) override;
 };
 
 #endif
