@@ -1,4 +1,3 @@
-// person.cpp
 #include "person.hpp"
 
 Person::Person(Email email) {
