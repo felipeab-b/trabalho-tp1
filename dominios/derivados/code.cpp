@@ -12,11 +12,3 @@ void Code::validate(string code){
     }
 }
 
-void Code::set(string code){
-    validate(code);
-    this->code = code;
-}
-
-string Code::get() const{
-    return this->code;
-}

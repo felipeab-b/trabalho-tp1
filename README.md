@@ -17,7 +17,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 | `Priority` | `priority.hpp` / `priority.cpp` | ✅ Feito |
 | `Name` | `name.hpp` / `name.cpp` | ✅ Feito |
 | `Text` | `text.hpp` / `text.cpp` | ⬜ Pendente |
-| `Password` | `password.hpp` / `password.cpp` | ⬜ Pendente |
+| `Password` | `password.hpp` / `password.cpp` | ✅ Feito  |
 | `Date` | `date.hpp` / `date.cpp` | ✅ Feito |
 | `Email` | `email.hpp` / `email.cpp` | ✅ Feito |
 | `Time` | `time.hpp` / `time.cpp` | ✅ Feito |
@@ -26,7 +26,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 
 | Classe | Arquivo | Status |
 |---|---|---|
-| `Person` | `person.hpp` / `person.cpp` | ⬜ Pendente |
+| `Person` | `person.hpp` / `person.cpp` | ✅ Feito |
 | `Project` | `project.hpp` / `project.cpp` | ⬜ Pendente |
 | `SprintPlan` | `sprintplan.hpp` / `sprintplan.cpp` | ⬜ Pendente |
 | `UserStory` | `userstory.hpp` / `userstory.cpp` | ⬜ Pendente |
@@ -62,6 +62,6 @@ projeto/
  
 | Nome | Artefatos |
 |---|---|
-| Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp` |
+| Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp`, `password.hpp/cpp`, `person.hpp/cpp` |
 | Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp` |
 | Eduardo Campos | `priority.hpp/cpp` |
