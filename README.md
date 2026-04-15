@@ -27,7 +27,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 | Classe | Arquivo | Status |
 |---|---|---|
 | `Person` | `person.hpp` / `person.cpp` | ✅ Feito |
-| `Project` | `project.hpp` / `project.cpp` | ⬜ Pendente |
+| `Project` | `project.hpp` / `project.cpp` | ✅ Feito |
 | `SprintPlan` | `sprintplan.hpp` / `sprintplan.cpp` | ⬜ Pendente |
 | `UserStory` | `userstory.hpp` / `userstory.cpp` | ⬜ Pendente |
 
@@ -63,5 +63,5 @@ projeto/
 | Nome | Artefatos |
 |---|---|
 | Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp`, `password.hpp/cpp`, `person.hpp/cpp` |
-| Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp` |
-| Eduardo Campos | `priority.hpp/cpp` |
+| Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp`, `project.hpp/cpp` |
+| Eduardo Campos | `priority.hpp/cpp`, `time.hpp/cpp` |
