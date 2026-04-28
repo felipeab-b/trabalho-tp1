@@ -65,3 +65,4 @@ projeto/
 | Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp`, `password.hpp/cpp`, `person.hpp/cpp` |
 | Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp`, `project.hpp/cpp` |
 | Eduardo Campos | `priority.hpp/cpp`, `time.hpp/cpp` |
+| Caio Cordeiro | `text.hpp/cpp` |
