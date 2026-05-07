@@ -1,5 +1,5 @@
-#ifndef SPRINT_PLAN_HPP
-#define SPRINT_PLAN_HPP
+#ifndef SPRINTPLAN_HPP
+#define SPRINTPLAN_HPP
 #include "../dominios/derivados/code.hpp"
 #include "../dominios/derivados/text.hpp"
 #include "../dominios/derivados/time.hpp"
