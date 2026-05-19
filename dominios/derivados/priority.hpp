@@ -6,7 +6,7 @@
 
 class Priority: public Dominio {
         private:
-                void validade(std::string);
+                void validate(std::string) override;
 };
 
 #endif
