@@ -28,7 +28,7 @@ Linguagem: C++ | Ambiente: Code::Blocks
 |---|---|---|
 | `Person` | `person.hpp` / `person.cpp` | ✅ Feito |
 | `Project` | `project.hpp` / `project.cpp` | ✅ Feito |
-| `SprintPlan` | `sprintplan.hpp` / `sprintplan.cpp` | ⬜ Pendente |
+| `SprintPlan` | `sprintplan.hpp` / `sprintplan.cpp` | ✅ Feito |
 | `UserStory` | `userstory.hpp` / `userstory.cpp` | ⬜ Pendente |
 
 ---
@@ -65,4 +65,4 @@ projeto/
 | Felipe Avelar | `code.hpp/cpp`, `state.hpp/cpp`, `role.hpp/cpp`, `password.hpp/cpp`, `person.hpp/cpp` |
 | Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp`, `project.hpp/cpp` |
 | Eduardo Campos | `priority.hpp/cpp`, `time.hpp/cpp` |
-| Caio Cordeiro | `text.hpp/cpp` |
+| Caio Cordeiro | `text.hpp/cpp`, `sprintplan.hpp/cpp` |
