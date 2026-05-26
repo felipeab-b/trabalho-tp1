@@ -1,0 +1,47 @@
+\doxysection{userstory.\+hpp}
+\hypertarget{userstory_8hpp_source}{}\label{userstory_8hpp_source}\index{entidades/userstory.hpp@{entidades/userstory.hpp}}
+\doxymbox{\hyperlink{userstory_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ userstory.hpp}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ USERSTORY\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ USERSTORY\_HPP}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{code_8hpp}{dominios/derivados/code.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{text_8hpp}{dominios/derivados/text.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{time_8hpp}{dominios/derivados/time.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{priority_8hpp}{dominios/derivados/priority.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{state_8hpp}{dominios/derivados/state.hpp}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{classUserStory_aa5033c392e882223103d87bc41327ae9}{UserStory}}\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classCode}{Code}}\ code;}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ title;}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ role;}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ action;}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ value;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classTime}{Time}}\ estimation;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classPriority}{Priority}}\ priority;}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classState}{State}}\ state;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classUserStory_aa5033c392e882223103d87bc41327ae9}{UserStory}}(\doxymbox{\hyperlink{classCode}{Code}}\ code);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classCode}{Code}}\ \doxymbox{\hyperlink{classUserStory_a4f57eae64290903f4811af105ef154ca}{getCode}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classUserStory_aa08f97817830d287e401f2df6fb8d503}{setTitle}}(\doxymbox{\hyperlink{classText}{Text}});}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ \doxymbox{\hyperlink{classUserStory_a8f6c601e0279cd2f9a507910cc1ee9e6}{getTitle}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classUserStory_aa036e96d2bef0e26088868232c53c871}{setRole}}(\doxymbox{\hyperlink{classText}{Text}});}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ \doxymbox{\hyperlink{classUserStory_a547eb3b72204724cffb47d2fc71e06c0}{getRole}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classUserStory_a4b12028072bbeed247189bf7c767c1a2}{setAction}}(\doxymbox{\hyperlink{classText}{Text}});}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ \doxymbox{\hyperlink{classUserStory_a4eac6f01a6093f7bb15c63af75c22c40}{getAction}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classUserStory_a624bae0f56695a1e9c030bd75cb55aff}{setValue}}(\doxymbox{\hyperlink{classText}{Text}});}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classText}{Text}}\ \doxymbox{\hyperlink{classUserStory_a1ef068d3cedf3957ce62e5f68d6542a4}{getValue}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classUserStory_a4d611c5652597e264f2ecb466afa66f8}{setEstimation}}(\doxymbox{\hyperlink{classTime}{Time}});}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classTime}{Time}}\ \doxymbox{\hyperlink{classUserStory_a42f3bc2b27f707222dad2506b0706c6b}{getEstimation}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classUserStory_a6986602dbec150ffd32dbca54e01b136}{setPriority}}(\doxymbox{\hyperlink{classPriority}{Priority}});}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classPriority}{Priority}}\ \doxymbox{\hyperlink{classUserStory_a22d6a085d4ce5bdf6d685b585ac0bd17}{getPriority}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classUserStory_ab5bec658f4877fee74e802eded77ab62}{setState}}(\doxymbox{\hyperlink{classState}{State}});}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{classState}{State}}\ \doxymbox{\hyperlink{classUserStory_a85b1883225985d82a4c59074da7ca573}{getState}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

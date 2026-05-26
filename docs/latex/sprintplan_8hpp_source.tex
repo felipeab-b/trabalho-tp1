@@ -1,0 +1,39 @@
+\doxysection{sprintplan.\+hpp}
+\hypertarget{sprintplan_8hpp_source}{}\label{sprintplan_8hpp_source}\index{entidades/sprintplan.hpp@{entidades/sprintplan.hpp}}
+\doxymbox{\hyperlink{sprintplan_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SPRINTPLAN\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SPRINTPLAN\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{code_8hpp}{../dominios/derivados/code.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{text_8hpp}{../dominios/derivados/text.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{time_8hpp}{../dominios/derivados/time.hpp}}"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{classSprintPlan_a8deee7a30d16a750fdde4f2c4e1020f9}{SprintPlan}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00009\ \ \ \doxymbox{\hyperlink{classCode}{Code}}\ code;}
+\DoxyCodeLine{00010\ \ \ \doxymbox{\hyperlink{classText}{Text}}\ objective;}
+\DoxyCodeLine{00011\ \ \ \doxymbox{\hyperlink{classTime}{Time}}\ capacity;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \doxymbox{\hyperlink{classSprintPlan_a8deee7a30d16a750fdde4f2c4e1020f9}{SprintPlan}}(\doxymbox{\hyperlink{classCode}{Code}});}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classSprintPlan_a204b6e591ce98f675dd8d8ea7a3f91a9}{setObjective}}(\doxymbox{\hyperlink{classText}{Text}});}
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classSprintPlan_a5c1bde9158ae33525dd76cf7b7216211}{setCapacity}}(\doxymbox{\hyperlink{classTime}{Time}});}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \doxymbox{\hyperlink{classCode}{Code}}\ \doxymbox{\hyperlink{classSprintPlan_a6e6c838c18881028110c4fd46b259a3e}{getCode}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00020\ \ \ \doxymbox{\hyperlink{classText}{Text}}\ \doxymbox{\hyperlink{classSprintPlan_ada2616e27bfe53f1dcd63ebd5e680837}{getObjective}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00021\ \ \ \doxymbox{\hyperlink{classTime}{Time}}\ \doxymbox{\hyperlink{classSprintPlan_a5a9b89d88abd415b7a25b30386137cc1}{getCapacity}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{classSprintPlan_a8deee7a30d16a750fdde4f2c4e1020f9}{SprintPlan::SprintPlan}}(\doxymbox{\hyperlink{classCode}{Code}}\ c)\ \{\ code\ =\ c;\ \}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classSprintPlan_a204b6e591ce98f675dd8d8ea7a3f91a9}{SprintPlan::setObjective}}(\doxymbox{\hyperlink{classText}{Text}}\ o)\ \{\ objective\ =\ o;\ \}}
+\DoxyCodeLine{00027\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{classSprintPlan_a5c1bde9158ae33525dd76cf7b7216211}{SprintPlan::setCapacity}}(\doxymbox{\hyperlink{classTime}{Time}}\ c)\ \{\ capacity\ =\ c;\ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{classCode}{Code}}\ \doxymbox{\hyperlink{classSprintPlan_a6e6c838c18881028110c4fd46b259a3e}{SprintPlan::getCode}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ code;\ \}}
+\DoxyCodeLine{00030\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{classText}{Text}}\ \doxymbox{\hyperlink{classSprintPlan_ada2616e27bfe53f1dcd63ebd5e680837}{SprintPlan::getObjective}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ objective;\ \}}
+\DoxyCodeLine{00031\ \textcolor{keyword}{inline}\ \doxymbox{\hyperlink{classTime}{Time}}\ \doxymbox{\hyperlink{classSprintPlan_a5a9b89d88abd415b7a25b30386137cc1}{SprintPlan::getCapacity}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ capacity;\ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

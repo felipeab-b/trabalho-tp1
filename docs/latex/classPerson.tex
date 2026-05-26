@@ -1,0 +1,163 @@
+\doxysection{Person Class Reference}
+\hypertarget{classPerson}{}\label{classPerson}\index{Person@{Person}}
+
+
+Entidade que representa um usuário do sistema.  
+
+
+
+
+{\ttfamily \+\#include $<$person.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{classPerson_aea86f37ba02b3b31cafd3a60382b1833}{Person}} (\doxymbox{\hyperlink{classEmail}{Email}} email)
+\begin{DoxyCompactList}\small\item\em Constrói uma pessoa com o email fornecido. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{classEmail}{Email}} \doxymbox{\hyperlink{classPerson_ab531eefe96d133ae50c19395815b4ca7}{get\+Email}} () const
+\begin{DoxyCompactList}\small\item\em Retorna o email da pessoa. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{classPerson_a6eb3b013fdd2f07b3b6cc325cd4e31c8}{set\+Name}} (\doxymbox{\hyperlink{className}{Name}} name)
+\begin{DoxyCompactList}\small\item\em Define o nome da pessoa. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{className}{Name}} \doxymbox{\hyperlink{classPerson_aba9c51600e819969ecee316b241e9363}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Retorna o nome da pessoa. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{classPerson_ae013fc98741450dfd0dcaacdd0575ac8}{set\+Password}} (\doxymbox{\hyperlink{classPassword}{Password}} password)
+\begin{DoxyCompactList}\small\item\em Define a senha da pessoa. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{classPassword}{Password}} \doxymbox{\hyperlink{classPerson_aebeddebbaad2d6947c063a83a6ce230f}{get\+Password}} () const
+\begin{DoxyCompactList}\small\item\em Retorna a senha da pessoa. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{classPerson_a8bbb0dda47e17754e4ce64522beed68a}{set\+Role}} (\doxymbox{\hyperlink{classRole}{Role}} role)
+\begin{DoxyCompactList}\small\item\em Define o papel da pessoa no projeto. \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{classRole}{Role}} \doxymbox{\hyperlink{classPerson_ab8dbeafb3d62f99b1001d0b5fb27d76f}{get\+Role}} () const
+\begin{DoxyCompactList}\small\item\em Retorna o papel da pessoa no projeto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Entidade que representa um usuário do sistema. 
+
+Cada pessoa é identificada unicamente por seu email, definido na criação e não editável posteriormente. Uma pessoa possui nome, senha e papel no projeto, que determinam quais serviços ela pode acessar. 
+
+\label{doc-constructors}
+\Hypertarget{classPerson_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classPerson_aea86f37ba02b3b31cafd3a60382b1833}\index{Person@{Person}!Person@{Person}}
+\index{Person@{Person}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{Person()}{Person()}}
+{\footnotesize\ttfamily \label{classPerson_aea86f37ba02b3b31cafd3a60382b1833} 
+Person::\+\+Person (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{classEmail}{Email}}}]{email}{}\end{DoxyParamCaption})}
+
+
+
+Constrói uma pessoa com o email fornecido. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & \doxylink{classEmail}{Email} identificador da pessoa. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{classPerson_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPerson_ab531eefe96d133ae50c19395815b4ca7}\index{Person@{Person}!getEmail@{getEmail}}
+\index{getEmail@{getEmail}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{getEmail()}{getEmail()}}
+{\footnotesize\ttfamily \label{classPerson_ab531eefe96d133ae50c19395815b4ca7} 
+\doxymbox{\hyperlink{classEmail}{Email}} Person::\+get\+Email (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Retorna o email da pessoa. 
+
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{classEmail}{Email} com o identificador da pessoa. 
+\end{DoxyReturn}
+\Hypertarget{classPerson_aba9c51600e819969ecee316b241e9363}\index{Person@{Person}!getName@{getName}}
+\index{getName@{getName}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily \label{classPerson_aba9c51600e819969ecee316b241e9363} 
+\doxymbox{\hyperlink{className}{Name}} Person::\+get\+Name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Retorna o nome da pessoa. 
+
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{className}{Name} com o nome da pessoa. 
+\end{DoxyReturn}
+\Hypertarget{classPerson_aebeddebbaad2d6947c063a83a6ce230f}\index{Person@{Person}!getPassword@{getPassword}}
+\index{getPassword@{getPassword}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{getPassword()}{getPassword()}}
+{\footnotesize\ttfamily \label{classPerson_aebeddebbaad2d6947c063a83a6ce230f} 
+\doxymbox{\hyperlink{classPassword}{Password}} Person::\+get\+Password (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Retorna a senha da pessoa. 
+
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{classPassword}{Password} com a senha da pessoa. 
+\end{DoxyReturn}
+\Hypertarget{classPerson_ab8dbeafb3d62f99b1001d0b5fb27d76f}\index{Person@{Person}!getRole@{getRole}}
+\index{getRole@{getRole}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{getRole()}{getRole()}}
+{\footnotesize\ttfamily \label{classPerson_ab8dbeafb3d62f99b1001d0b5fb27d76f} 
+\doxymbox{\hyperlink{classRole}{Role}} Person::\+get\+Role (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Retorna o papel da pessoa no projeto. 
+
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{classRole}{Role} com o papel da pessoa. 
+\end{DoxyReturn}
+\Hypertarget{classPerson_a6eb3b013fdd2f07b3b6cc325cd4e31c8}\index{Person@{Person}!setName@{setName}}
+\index{setName@{setName}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{setName()}{setName()}}
+{\footnotesize\ttfamily \label{classPerson_a6eb3b013fdd2f07b3b6cc325cd4e31c8} 
+void Person::\+set\+Name (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{className}{Name}}}]{name}{}\end{DoxyParamCaption})}
+
+
+
+Define o nome da pessoa. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Objeto \doxylink{className}{Name} com o nome desejado. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classPerson_ae013fc98741450dfd0dcaacdd0575ac8}\index{Person@{Person}!setPassword@{setPassword}}
+\index{setPassword@{setPassword}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{setPassword()}{setPassword()}}
+{\footnotesize\ttfamily \label{classPerson_ae013fc98741450dfd0dcaacdd0575ac8} 
+void Person::\+set\+Password (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{classPassword}{Password}}}]{password}{}\end{DoxyParamCaption})}
+
+
+
+Define a senha da pessoa. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em password} & Objeto \doxylink{classPassword}{Password} com a senha desejada. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classPerson_a8bbb0dda47e17754e4ce64522beed68a}\index{Person@{Person}!setRole@{setRole}}
+\index{setRole@{setRole}!Person@{Person}}
+\doxysubsubsection{\texorpdfstring{setRole()}{setRole()}}
+{\footnotesize\ttfamily \label{classPerson_a8bbb0dda47e17754e4ce64522beed68a} 
+void Person::\+set\+Role (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{classRole}{Role}}}]{role}{}\end{DoxyParamCaption})}
+
+
+
+Define o papel da pessoa no projeto. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em role} & Objeto \doxylink{classRole}{Role} com o papel desejado. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+entidades/\+\doxymbox{\hyperlink{person_8hpp}{person.\+hpp}}\item 
+entidades/\+\doxymbox{\hyperlink{person_8cpp}{person.\+cpp}}\end{DoxyCompactItemize}
