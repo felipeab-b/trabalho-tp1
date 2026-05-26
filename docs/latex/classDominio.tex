@@ -1,0 +1,135 @@
+\doxysection{Dominio Class Reference}
+\hypertarget{classDominio}{}\label{classDominio}\index{Dominio@{Dominio}}
+
+
+Classe base abstrata para todos os domínios do sistema.  
+
+
+
+
+{\ttfamily \+\#include $<$dominios.\+hpp$>$}
+
+Inheritance diagram for Dominio:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=11.000000cm]{classDominio}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{classDominio_abe5f8b4e6c437ec099157c3f9b68b77d}{set}} (string \doxymbox{\hyperlink{classDominio_adf6b3cc90ca5abce6cd462cdb313220e}{valor}})
+\begin{DoxyCompactList}\small\item\em Define o valor do domínio após validação. \end{DoxyCompactList}\item 
+string \doxymbox{\hyperlink{classDominio_adb041db494bf2c165c75f0cb7edf136b}{get}} () const
+\begin{DoxyCompactList}\small\item\em Retorna o valor armazenado. \end{DoxyCompactList}\item 
+virtual \doxymbox{\hyperlink{classDominio_a73902c2f1d3ef7d4060143f61f1eeabc}{\texorpdfstring{$\sim$}{\string~}\+Dominio}} ()
+\begin{DoxyCompactList}\small\item\em Destrutor virtual. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \doxymbox{\hyperlink{classDominio_a3ed716bcf8a87405351e5de8fea56850}{validate}} (string \doxymbox{\hyperlink{classDominio_adf6b3cc90ca5abce6cd462cdb313220e}{valor}})=0
+\begin{DoxyCompactList}\small\item\em Valida o valor fornecido. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \doxymbox{\hyperlink{classDominio_adf6b3cc90ca5abce6cd462cdb313220e}{valor}}
+\begin{DoxyCompactList}\small\item\em Valor armazenado pelo domínio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Classe base abstrata para todos os domínios do sistema. 
+
+Define a interface comum de acesso (set/\+get) compartilhada por todos os domínios. Cada subclasse deve implementar \doxylink{classDominio_a3ed716bcf8a87405351e5de8fea56850}{validate()} com suas próprias regras de validação. 
+
+\label{doc-constructors}
+\Hypertarget{classDominio_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classDominio_a73902c2f1d3ef7d4060143f61f1eeabc}\index{Dominio@{Dominio}!````~Dominio@{\texorpdfstring{$\sim$}{\string~}Dominio}}
+\index{````~Dominio@{\texorpdfstring{$\sim$}{\string~}Dominio}!Dominio@{Dominio}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Dominio()}{\string~Dominio()}}
+{\footnotesize\ttfamily \label{classDominio_a73902c2f1d3ef7d4060143f61f1eeabc} 
+virtual Dominio::\+\texorpdfstring{$\sim$}{\string~}\+Dominio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Destrutor virtual. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{classDominio_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classDominio_adb041db494bf2c165c75f0cb7edf136b}\index{Dominio@{Dominio}!get@{get}}
+\index{get@{get}!Dominio@{Dominio}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \label{classDominio_adb041db494bf2c165c75f0cb7edf136b} 
+string Dominio::\+get (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Retorna o valor armazenado. 
+
+\begin{DoxyReturn}{Returns}
+String com o valor do domínio. 
+\end{DoxyReturn}
+\Hypertarget{classDominio_abe5f8b4e6c437ec099157c3f9b68b77d}\index{Dominio@{Dominio}!set@{set}}
+\index{set@{set}!Dominio@{Dominio}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily \label{classDominio_abe5f8b4e6c437ec099157c3f9b68b77d} 
+void Dominio::\+set (\begin{DoxyParamCaption}\item[{string}]{valor}{}\end{DoxyParamCaption})}
+
+
+
+Define o valor do domínio após validação. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \doxylink{classDominio_adf6b3cc90ca5abce6cd462cdb313220e}{valor}} & String a ser validada e armazenada. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & se o formato for inválido. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classDominio_a3ed716bcf8a87405351e5de8fea56850}\index{Dominio@{Dominio}!validate@{validate}}
+\index{validate@{validate}!Dominio@{Dominio}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{classDominio_a3ed716bcf8a87405351e5de8fea56850} 
+virtual void Dominio::\+validate (\begin{DoxyParamCaption}\item[{string}]{valor}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+
+
+Valida o valor fornecido. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \doxylink{classDominio_adf6b3cc90ca5abce6cd462cdb313220e}{valor}} & String a ser validada. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & se o valor não atender ao formato esperado. \\
+\hline
+\end{DoxyExceptions}
+
+
+\label{doc-variable-members}
+\Hypertarget{classDominio_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classDominio_adf6b3cc90ca5abce6cd462cdb313220e}\index{Dominio@{Dominio}!valor@{valor}}
+\index{valor@{valor}!Dominio@{Dominio}}
+\doxysubsubsection{\texorpdfstring{valor}{valor}}
+{\footnotesize\ttfamily \label{classDominio_adf6b3cc90ca5abce6cd462cdb313220e} 
+string Dominio::\+valor\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Valor armazenado pelo domínio. 
+
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+dominios/\+\doxymbox{\hyperlink{dominios_8hpp}{dominios.\+hpp}}\item 
+dominios/\+\doxymbox{\hyperlink{dominios_8cpp}{dominios.\+cpp}}\end{DoxyCompactItemize}
