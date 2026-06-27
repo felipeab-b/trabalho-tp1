@@ -1,5 +1,5 @@
-#ifndef CNTRL_PERSON_SERVICE_HPP
-#define CNTRL_PERSON_SERVICE_HPP
+#ifndef CTRL_PERSON_SERVICE_HPP
+#define CTRL_PERSON_SERVICE_HPP
 
 #include "IPersonService.hpp" // Puxa a interface que você já tem
 #include <vector>             // A estrutura de dados exigida
