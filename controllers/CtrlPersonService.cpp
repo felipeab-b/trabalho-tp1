@@ -1,4 +1,4 @@
-#include "CtrlPersonService.hpp".hpp"
+#include "CtrlPersonService.hpp"
 
 // 1. CRIAR PESSOA
 void CntrServicoPessoa::criarPessoa(Email email, Name name, Password password, Role role) {
