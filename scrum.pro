@@ -14,11 +14,15 @@ TEMPLATE = app
 SOURCES += \
     gui/main_gui.cpp \
     gui/MainWindow.cpp \
+    gui/AuthWidget.cpp \
+    gui/LoginWidget.cpp \
+    gui/RegisterWidget.cpp \
     gui/PessoaWidget.cpp \
     gui/ProjetoWidget.cpp \
     gui/SprintWidget.cpp \
     gui/HistoriaWidget.cpp \
     controllers/CtrlPersonService.cpp \
+    controllers/CtrlAuthService.cpp \
     controllers/CtrlProjectService.cpp \
     controllers/CtrlSprintPlanService.cpp \
     controllers/CtrlUserStoryService.cpp \
@@ -41,11 +45,15 @@ SOURCES += \
 
 HEADERS += \
     gui/MainWindow.hpp \
+    gui/AuthWidget.hpp \
+    gui/LoginWidget.hpp \
+    gui/RegisterWidget.hpp \
     gui/PessoaWidget.hpp \
     gui/ProjetoWidget.hpp \
     gui/SprintWidget.hpp \
     gui/HistoriaWidget.hpp \
     controllers/CtrlPersonService.hpp \
+    controllers/CtrlAuthService.hpp \
     controllers/CtrlProjectService.hpp \
     controllers/CtrlSprintPlanService.hpp \
     controllers/CtrlUserStoryService.hpp \

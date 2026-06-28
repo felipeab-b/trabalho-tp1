@@ -6,8 +6,15 @@
 #include <QHeaderView>
 
 SprintWidget::SprintWidget(ISprintPlanService& service, QWidget *parent)
-    : QWidget(parent), service_(service), codigoSelecionado_("") {
+    : QWidget(parent), service_(service), currentProjectCode_(""), codigoSelecionado_("") {
     setupUI();
+}
+
+void SprintWidget::setProjectCode(const QString& code) {
+    currentProjectCode_ = code;
+    if (!code.isEmpty()) {
+        projetoInput_->setText(code);
+    }
 }
 
 void SprintWidget::setupUI() {
@@ -82,8 +89,18 @@ void SprintWidget::onAdicionarClicked() {
         Time capacidade;
         capacidade.set(capacidadeInput_->text().toStdString());
         
+        QString projetoCode = projetoInput_->text();
+        if (projetoCode.isEmpty() && !currentProjectCode_.isEmpty()) {
+            projetoCode = currentProjectCode_;
+        }
+
+        if (projetoCode.isEmpty()) {
+            exibirMensagem("Erro", "Selecione um projeto antes de criar o plano de sprint.", false);
+            return;
+        }
+
         Code projeto;
-        projeto.set(projetoInput_->text().toStdString());
+        projeto.set(projetoCode.toStdString());
         
         service_.criarPlanoDeSprint(codigo, objetivo, capacidade, projeto);
         exibirMensagem("Sucesso", "Plano de sprint adicionado com sucesso.");
@@ -174,6 +191,9 @@ void SprintWidget::onLimparClicked() {
     objetivoInput_->clear();
     capacidadeInput_->clear();
     projetoInput_->clear();
+    if (!currentProjectCode_.isEmpty()) {
+        projetoInput_->setText(currentProjectCode_);
+    }
     tabelaSprints_->setRowCount(0);
     codigoSelecionado_ = "";
 }

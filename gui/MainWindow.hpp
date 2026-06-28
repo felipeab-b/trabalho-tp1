@@ -19,8 +19,12 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(CntrServicoPessoa* p, CntrServicoProjeto* proj, 
                CntrServicoPlanoSprint* sprint, CntrServicoHistoriaUsuario* hist, 
+               const QString& currentUserEmail = QString(),
                QWidget *parent = nullptr);
     ~MainWindow();
+
+private slots:
+    void onProjetoSelecionado(const QString& code);
 
 private:
     QTabWidget *tabWidget_;
@@ -35,6 +39,9 @@ private:
     SprintWidget *sprintWidget_;
     HistoriaWidget *historiaWidget_;
     
+    QString currentUserEmail_;
+    QString currentProjectCode_;
+
     void createTabs();
     void setupUI();
 };
