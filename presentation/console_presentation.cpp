@@ -1,5 +1,9 @@
-#include "console_presentation.hpp"
+/**
+ * @file console_presentation.cpp
+ * @brief Implementação dos métodos da camada de apresentação em console.
+ */
 
+#include "console_presentation.hpp"
 #include <iostream>
 #include <limits>
 #include <stdexcept>
@@ -22,7 +26,6 @@ void ConsolePresentation::run() {
         std::cout << "Opcao: ";
         std::cin >> opcao;
 
-        // CORRIGIDO: Tratamento de erro para impedir loop infinito se o usuario digitar letras
         if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -34,54 +37,22 @@ void ConsolePresentation::run() {
 
         try {
             switch (opcao) {
-                case 1:
-                    cadastrarPessoa();
-                    break;
-                case 2:
-                    buscarPessoa();
-                    break;
-                case 3:
-                    atualizarPessoa();
-                    break;
-                case 4:
-                    removerPessoa();
-                    break;
-                case 5:
-                    cadastrarProjeto();
-                    break;
-                case 6:
-                    buscarProjeto();
-                    break;
-                case 7:
-                    atualizarProjeto();
-                    break;
-                case 8:
-                    removerProjeto();
-                    break;
-                case 9:
-                    cadastrarPlanoSprint();
-                    break;
-                case 10:
-                    buscarPlanoSprint();
-                    break;
-                case 11:
-                    atualizarPlanoSprint();
-                    break;
-                case 12:
-                    removerPlanoSprint();
-                    break;
-                case 13:
-                    cadastrarHistoria();
-                    break;
-                case 14:
-                    buscarHistoria();
-                    break;
-                case 15:
-                    atualizarHistoria();
-                    break;
-                case 16:
-                    removerHistoria();
-                    break;
+                case 1: cadastrarPessoa(); break;
+                case 2: buscarPessoa(); break;
+                case 3: atualizarPessoa(); break;
+                case 4: removerPessoa(); break;
+                case 5: cadastrarProjeto(); break;
+                case 6: buscarProjeto(); break;
+                case 7: atualizarProjeto(); break;
+                case 8: removerProjeto(); break;
+                case 9: cadastrarPlanoSprint(); break;
+                case 10: buscarPlanoSprint(); break;
+                case 11: atualizarPlanoSprint(); break;
+                case 12: removerPlanoSprint(); break;
+                case 13: cadastrarHistoria(); break;
+                case 14: buscarHistoria(); break;
+                case 15: atualizarHistoria(); break;
+                case 16: removerHistoria(); break;
                 case 0:
                     std::cout << "Encerrando o sistema..." << std::endl;
                     break;
@@ -90,7 +61,7 @@ void ConsolePresentation::run() {
                     break;
             }
         } catch (const std::exception& ex) {
-            std::cout << ex.what() << std::endl;
+            std::cout << "\nErro de validacao: " << ex.what() << std::endl;
         }
     }
 }
@@ -249,7 +220,6 @@ Email ConsolePresentation::lerEmail(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Email email;
     email.set(valor);
     return email;
@@ -259,7 +229,6 @@ Name ConsolePresentation::lerNome(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Name nome;
     nome.set(valor);
     return nome;
@@ -269,7 +238,6 @@ Password ConsolePresentation::lerSenha(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Password senha;
     senha.set(valor);
     return senha;
@@ -279,7 +247,6 @@ Role ConsolePresentation::lerPapel(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Role papel;
     papel.set(valor);
     return papel;
@@ -289,7 +256,6 @@ Code ConsolePresentation::lerCodigo(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Code codigo;
     codigo.set(valor);
     return codigo;
@@ -299,7 +265,6 @@ Date ConsolePresentation::lerData(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Date data;
     data.set(valor);
     return data;
@@ -309,7 +274,6 @@ Text ConsolePresentation::lerTexto(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Text texto;
     texto.set(valor);
     return texto;
@@ -319,7 +283,6 @@ Time ConsolePresentation::lerTempo(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Time tempo;
     tempo.set(valor);
     return tempo;
@@ -329,7 +292,6 @@ Priority ConsolePresentation::lerPrioridade(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     Priority prioridade;
     prioridade.set(valor);
     return prioridade;
@@ -339,7 +301,6 @@ State ConsolePresentation::lerEstado(const std::string& prompt) const {
     std::string valor;
     std::cout << prompt;
     std::getline(std::cin, valor);
-
     State estado;
     estado.set(valor);
     return estado;
@@ -348,7 +309,7 @@ State ConsolePresentation::lerEstado(const std::string& prompt) const {
 void ConsolePresentation::exibirPessoa(const Person& pessoa) const {
     std::cout << "Email: " << pessoa.getEmail().get() << std::endl;
     std::cout << "Nome: " << pessoa.getName().get() << std::endl;
-    std::cout << "Role: " << pessoa.getRole().get() << std::endl;
+    std::cout << "Papel: " << pessoa.getRole().get() << std::endl;
 }
 
 void ConsolePresentation::exibirProjeto(const Project& projeto) const {
