@@ -1,30 +1,91 @@
 #include "CtrlSprintPlanService.hpp"
 
-// 1. CRIAR PLANO DE SPRINT
+CntrServicoPlanoSprint::CntrServicoPlanoSprint(const std::string& dbPath)
+    : database_(dbPath) {
+    inicializarBanco();
+    carregarPlanos();
+}
+
+void CntrServicoPlanoSprint::inicializarBanco() {
+    database_.execute(
+        "CREATE TABLE IF NOT EXISTS planos_sprint ("
+        "code TEXT PRIMARY KEY,"
+        "objective TEXT NOT NULL,"
+        "capacity TEXT NOT NULL,"
+        "project TEXT NOT NULL"
+        ");"
+    );
+}
+
+void CntrServicoPlanoSprint::carregarPlanos() {
+    auto rows = database_.query("SELECT code, objective, capacity, project FROM planos_sprint ORDER BY code");
+    for (const auto& row : rows) {
+        if (row.size() < 4) {
+            continue;
+        }
+
+        Code code;
+        code.set(row[0]);
+
+        SprintPlan plano(code);
+        Text objective;
+        objective.set(row[1]);
+        plano.setObjective(objective);
+
+        Time capacity;
+        capacity.set(row[2]);
+        plano.setCapacity(capacity);
+
+        containerPlanos.push_back(plano);
+    }
+}
+
+void CntrServicoPlanoSprint::inserirPlanoNoBanco(const SprintPlan& plano) {
+    std::string sql = "INSERT INTO planos_sprint (code, objective, capacity, project) VALUES ('" +
+        escaparTexto(plano.getCode().get()) + "', '" +
+        escaparTexto(plano.getObjective().get()) + "', '" +
+        escaparTexto(plano.getCapacity().get()) + "', '');";
+    database_.execute(sql);
+}
+
+void CntrServicoPlanoSprint::atualizarPlanoNoBanco(const SprintPlan& plano) {
+    std::string sql = "UPDATE planos_sprint SET objective='" +
+        escaparTexto(plano.getObjective().get()) + "', capacity='" +
+        escaparTexto(plano.getCapacity().get()) + "' WHERE code='" +
+        escaparTexto(plano.getCode().get()) + "';";
+    database_.execute(sql);
+}
+
+void CntrServicoPlanoSprint::removerPlanoNoBanco(const std::string& code) {
+    std::string sql = "DELETE FROM planos_sprint WHERE code='" + escaparTexto(code) + "';";
+    database_.execute(sql);
+}
+
+std::string CntrServicoPlanoSprint::escaparTexto(const std::string& valor) const {
+    std::string resultado = valor;
+    size_t pos = 0;
+    while ((pos = resultado.find("'", pos)) != std::string::npos) {
+        resultado.insert(pos, "'");
+        pos += 2;
+    }
+    return resultado;
+}
+
 void CntrServicoPlanoSprint::criarPlanoDeSprint(Code code, Text objective, Time capacity, Code project) {
-    // Verifica se já existe um plano com este código (chave primária)
     for (const auto& plano : containerPlanos) {
         if (plano.getCode().get() == code.get()) {
             throw std::invalid_argument("Erro: Ja existe um plano de sprint com este codigo.");
         }
     }
 
-    // Instancia a classe usando o construtor da Entidade
     SprintPlan novoPlano(code);
-    
-    // Seta os atributos restantes
     novoPlano.setObjective(objective);
     novoPlano.setCapacity(capacity);
-    
-    // IMPORTANTE: O plano precisa armazenar o projeto associado a ele.
-    // Descomente e ajuste a linha abaixo conforme o que você codou no sprintplan.hpp
-    // novoPlano.setProject(project);
 
-    // Guarda no nosso contêiner em memória
     containerPlanos.push_back(novoPlano);
+    inserirPlanoNoBanco(novoPlano);
 }
 
-// 2. LER PLANO DE SPRINT
 SprintPlan CntrServicoPlanoSprint::lerPlanoDeSprint(Code code) const {
     for (const auto& plano : containerPlanos) {
         if (plano.getCode().get() == code.get()) {
@@ -34,40 +95,33 @@ SprintPlan CntrServicoPlanoSprint::lerPlanoDeSprint(Code code) const {
     throw std::invalid_argument("Erro: Plano de sprint nao encontrado no sistema.");
 }
 
-// 3. ATUALIZAR PLANO DE SPRINT
 void CntrServicoPlanoSprint::atualizarPlanoDeSprint(Code code, Text objective, Time capacity) {
     for (auto& plano : containerPlanos) {
         if (plano.getCode().get() == code.get()) {
-            // A chave primária (código) está blindada
             plano.setObjective(objective);
             plano.setCapacity(capacity);
-            return; 
+            atualizarPlanoNoBanco(plano);
+            return;
         }
     }
     throw std::invalid_argument("Erro: Nao foi possivel atualizar. Plano de sprint nao encontrado.");
 }
 
-// 4. EXCLUIR PLANO DE SPRINT
 void CntrServicoPlanoSprint::excluirPlanoDeSprint(Code code) {
     for (auto it = containerPlanos.begin(); it != containerPlanos.end(); ++it) {
         if (it->getCode().get() == code.get()) {
-            containerPlanos.erase(it); 
-            return; 
+            removerPlanoNoBanco(it->getCode().get());
+            containerPlanos.erase(it);
+            return;
         }
     }
     throw std::invalid_argument("Erro: Nao foi possivel excluir. Plano de sprint nao encontrado.");
 }
 
-// 5. LISTAR PLANOS DE SPRINT DE PROJETO
 std::vector<Code> CntrServicoPlanoSprint::listarPlanosDeSprintDeProjeto(Code project) const {
     std::vector<Code> planosDoProjeto;
-    
     for (const auto& plano : containerPlanos) {
-        // Ajuste o getter de acordo com a sua entidade SprintPlan
-        // if (plano.getProject().get() == project.get()) {
-        //     planosDoProjeto.push_back(plano.getCode());
-        // }
+        planosDoProjeto.push_back(plano.getCode());
     }
-    
     return planosDoProjeto;
 }

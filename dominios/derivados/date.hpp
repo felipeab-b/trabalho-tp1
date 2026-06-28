@@ -1,7 +1,7 @@
 #ifndef DATE_HPP
 #define DATE_HPP
 
-#include "dominios.hpp"
+#include "../dominios.hpp"
 #include <stdexcept>
 
 using namespace std;

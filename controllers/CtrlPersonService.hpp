@@ -1,18 +1,27 @@
 #ifndef CTRL_PERSON_SERVICE_HPP
 #define CTRL_PERSON_SERVICE_HPP
 
-#include "IPersonService.hpp" // Puxa a interface que você já tem
-#include <vector>             // A estrutura de dados exigida
+#include "../interfaces/IPersonService.hpp"
+#include "../database/sqlite_connection.hpp"
+#include <vector>
 #include <stdexcept>
+#include <string>
 
-// A classe herda (implementa) a interface IPersonService
 class CntrServicoPessoa : public IPersonService {
 private:
-    // Nossa estrutura de dados em memória que vai guardar as pessoas
-    std::vector<Person> containerPessoas; 
+    std::vector<Person> containerPessoas;
+    SQLiteConnection database_;
+
+    void inicializarBanco();
+    void carregarPessoas();
+    void inserirPessoaNoBanco(const Person& pessoa);
+    void atualizarPessoaNoBanco(const Person& pessoa);
+    void removerPessoaNoBanco(const std::string& email);
+    std::string escaparTexto(const std::string& valor) const;
 
 public:
-    // O 'override' avisa o compilador que estamos implementando os métodos da interface
+    explicit CntrServicoPessoa(const std::string& dbPath = "scrum.db");
+
     void criarPessoa(Email email, Name name, Password password, Role role) override;
     Person lerPessoa(Email email) const override;
     void atualizarPessoa(Email email, Name name, Password password, Role role) override;

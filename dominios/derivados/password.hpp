@@ -1,7 +1,7 @@
 #ifndef PASSWORD_HPP
 #define PASSWORD_HPP
 
-#include "dominios.hpp"
+#include "../dominios.hpp"
 #include <stdexcept>
 
 using namespace std;

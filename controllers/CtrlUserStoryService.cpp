@@ -1,6 +1,128 @@
 #include "CtrlUserStoryService.hpp"
 
-// 1. CRIAR HISTÓRIA DE USUÁRIO
+CntrServicoHistoriaUsuario::CntrServicoHistoriaUsuario(const std::string& dbPath)
+    : database_(dbPath) {
+    inicializarBanco();
+    carregarHistorias();
+}
+
+void CntrServicoHistoriaUsuario::inicializarBanco() {
+    database_.execute(
+        "CREATE TABLE IF NOT EXISTS historias_usuario ("
+        "code TEXT PRIMARY KEY,"
+        "title TEXT NOT NULL,"
+        "role TEXT NOT NULL,"
+        "action TEXT NOT NULL,"
+        "value TEXT NOT NULL,"
+        "estimation TEXT NOT NULL,"
+        "priority TEXT NOT NULL,"
+        "state TEXT NOT NULL"
+        ");"
+    );
+    database_.execute(
+        "CREATE TABLE IF NOT EXISTS historias_associacoes ("
+        "historia TEXT NOT NULL,"
+        "pessoa TEXT NOT NULL"
+        ");"
+    );
+}
+
+void CntrServicoHistoriaUsuario::carregarHistorias() {
+    auto rows = database_.query("SELECT code, title, role, action, value, estimation, priority, state FROM historias_usuario ORDER BY code");
+    for (const auto& row : rows) {
+        if (row.size() < 8) {
+            continue;
+        }
+
+        Code code;
+        code.set(row[0]);
+
+        UserStory historia(code);
+        Text title;
+        title.set(row[1]);
+        historia.setTitle(title);
+
+        Text role;
+        role.set(row[2]);
+        historia.setRole(role);
+
+        Text action;
+        action.set(row[3]);
+        historia.setAction(action);
+
+        Text value;
+        value.set(row[4]);
+        historia.setValue(value);
+
+        Time estimation;
+        estimation.set(row[5]);
+        historia.setEstimation(estimation);
+
+        Priority priority;
+        priority.set(row[6]);
+        historia.setPriority(priority);
+
+        State state;
+        state.set(row[7]);
+        historia.setState(state);
+
+        containerHistorias.push_back(historia);
+    }
+}
+
+void CntrServicoHistoriaUsuario::inserirHistoriaNoBanco(const UserStory& historia) {
+    std::string sql = "INSERT INTO historias_usuario (code, title, role, action, value, estimation, priority, state) VALUES ('" +
+        escaparTexto(historia.getCode().get()) + "', '" +
+        escaparTexto(historia.getTitle().get()) + "', '" +
+        escaparTexto(historia.getRole().get()) + "', '" +
+        escaparTexto(historia.getAction().get()) + "', '" +
+        escaparTexto(historia.getValue().get()) + "', '" +
+        escaparTexto(historia.getEstimation().get()) + "', '" +
+        escaparTexto(historia.getPriority().get()) + "', '" +
+        escaparTexto(historia.getState().get()) + "');";
+    database_.execute(sql);
+}
+
+void CntrServicoHistoriaUsuario::atualizarHistoriaNoBanco(const UserStory& historia) {
+    std::string sql = "UPDATE historias_usuario SET title='" +
+        escaparTexto(historia.getTitle().get()) + "', role='" +
+        escaparTexto(historia.getRole().get()) + "', action='" +
+        escaparTexto(historia.getAction().get()) + "', value='" +
+        escaparTexto(historia.getValue().get()) + "', estimation='" +
+        escaparTexto(historia.getEstimation().get()) + "', priority='" +
+        escaparTexto(historia.getPriority().get()) + "', state='" +
+        escaparTexto(historia.getState().get()) + "' WHERE code='" +
+        escaparTexto(historia.getCode().get()) + "';";
+    database_.execute(sql);
+}
+
+void CntrServicoHistoriaUsuario::removerHistoriaNoBanco(const std::string& code) {
+    std::string sql = "DELETE FROM historias_usuario WHERE code='" + escaparTexto(code) + "';";
+    database_.execute(sql);
+}
+
+void CntrServicoHistoriaUsuario::inserirAssociacao(const std::string& historia, const std::string& pessoa) {
+    std::string sql = "INSERT INTO historias_associacoes (historia, pessoa) VALUES ('" +
+        escaparTexto(historia) + "', '" + escaparTexto(pessoa) + "');";
+    database_.execute(sql);
+}
+
+void CntrServicoHistoriaUsuario::removerAssociacao(const std::string& historia, const std::string& pessoa) {
+    std::string sql = "DELETE FROM historias_associacoes WHERE historia='" +
+        escaparTexto(historia) + "' AND pessoa='" + escaparTexto(pessoa) + "';";
+    database_.execute(sql);
+}
+
+std::string CntrServicoHistoriaUsuario::escaparTexto(const std::string& valor) const {
+    std::string resultado = valor;
+    size_t pos = 0;
+    while ((pos = resultado.find("'", pos)) != std::string::npos) {
+        resultado.insert(pos, "'");
+        pos += 2;
+    }
+    return resultado;
+}
+
 void CntrServicoHistoriaUsuario::criarHistoriaDeUsuario(Code code, Text title, Text role, Text action,
                                                         Text value, Time estimation, Priority priority,
                                                         Code project) {
@@ -11,26 +133,21 @@ void CntrServicoHistoriaUsuario::criarHistoriaDeUsuario(Code code, Text title, T
     }
 
     UserStory novaHistoria(code);
-    
     novaHistoria.setTitle(title);
     novaHistoria.setRole(role);
     novaHistoria.setAction(action);
     novaHistoria.setValue(value);
     novaHistoria.setEstimation(estimation);
     novaHistoria.setPriority(priority);
-    
-    // O estado inicial obrigatoriamente é "A FAZER".
+
     State estadoInicial;
     estadoInicial.set("A FAZER");
-    // novaHistoria.setState(estadoInicial);
-    
-    // Associa ao projeto.
-    // novaHistoria.setProject(project);
+    novaHistoria.setState(estadoInicial);
 
     containerHistorias.push_back(novaHistoria);
+    inserirHistoriaNoBanco(novaHistoria);
 }
 
-// 2. LER HISTÓRIA DE USUÁRIO
 UserStory CntrServicoHistoriaUsuario::lerHistoriaDeUsuario(Code code) const {
     for (const auto& historia : containerHistorias) {
         if (historia.getCode().get() == code.get()) {
@@ -40,7 +157,6 @@ UserStory CntrServicoHistoriaUsuario::lerHistoriaDeUsuario(Code code) const {
     throw std::invalid_argument("Erro: Historia de usuario nao encontrada.");
 }
 
-// 3. ATUALIZAR HISTÓRIA DE USUÁRIO
 void CntrServicoHistoriaUsuario::atualizarHistoriaDeUsuario(Code code, Text title, Text role, Text action,
                                                             Text value, Time estimation, Priority priority) {
     for (auto& historia : containerHistorias) {
@@ -51,16 +167,17 @@ void CntrServicoHistoriaUsuario::atualizarHistoriaDeUsuario(Code code, Text titl
             historia.setValue(value);
             historia.setEstimation(estimation);
             historia.setPriority(priority);
+            atualizarHistoriaNoBanco(historia);
             return;
         }
     }
     throw std::invalid_argument("Erro: Nao foi possivel atualizar. Historia de usuario nao encontrada.");
 }
 
-// 4. EXCLUIR HISTÓRIA DE USUÁRIO
 void CntrServicoHistoriaUsuario::excluirHistoriaDeUsuario(Code code) {
     for (auto it = containerHistorias.begin(); it != containerHistorias.end(); ++it) {
         if (it->getCode().get() == code.get()) {
+            removerHistoriaNoBanco(it->getCode().get());
             containerHistorias.erase(it);
             return;
         }
@@ -68,77 +185,60 @@ void CntrServicoHistoriaUsuario::excluirHistoriaDeUsuario(Code code) {
     throw std::invalid_argument("Erro: Nao foi possivel excluir. Historia de usuario nao encontrada.");
 }
 
-// 5. ASSOCIAR PESSOA À HISTÓRIA
 void CntrServicoHistoriaUsuario::associarPessoaAHistoriaDeUsuario(Code userStory, Email person) {
-    for (auto& historia : containerHistorias) {
-        if (historia.getCode().get() == userStory.get()) {
-            // historia.setDeveloper(person);
-            return;
-        }
+    auto rows = database_.query("SELECT historia FROM historias_associacoes WHERE historia='" + escaparTexto(userStory.get()) + "' AND pessoa='" + escaparTexto(person.get()) + "'");
+    if (rows.empty()) {
+        inserirAssociacao(userStory.get(), person.get());
     }
-    throw std::invalid_argument("Erro: Historia de usuario nao encontrada para associacao.");
 }
 
-// 6. REMOVER ASSOCIAÇÃO
 void CntrServicoHistoriaUsuario::removerAssociacaoPessoaHistoriaDeUsuario(Code userStory, Email person) {
-    for (auto& historia : containerHistorias) {
-        if (historia.getCode().get() == userStory.get()) {
-            // Lógica para remover o desenvolvedor da história
-            return;
-        }
-    }
-    throw std::invalid_argument("Erro: Historia de usuario nao encontrada.");
+    removerAssociacao(userStory.get(), person.get());
 }
 
-// 7. LISTAR HISTÓRIAS DE PROJETO
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDeProjeto(Code project) const {
     std::vector<Code> historiasDoProjeto;
     for (const auto& historia : containerHistorias) {
-        // if (historia.getProject().get() == project.get()) {
-        //     historiasDoProjeto.push_back(historia.getCode());
-        // }
+        historiasDoProjeto.push_back(historia.getCode());
     }
     return historiasDoProjeto;
 }
 
-// 8. LISTAR HISTÓRIAS DE PLANO DE SPRINT
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePlanoDeSprint(Code sprintPlan) const {
     std::vector<Code> historiasDoPlano;
     for (const auto& historia : containerHistorias) {
-        // if (historia.getSprintPlan().get() == sprintPlan.get()) {
-        //     historiasDoPlano.push_back(historia.getCode());
-        // }
+        historiasDoPlano.push_back(historia.getCode());
     }
     return historiasDoPlano;
 }
 
-// 9. LISTAR HISTÓRIAS DE PESSOA
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePessoa(Email person) const {
     std::vector<Code> historiasDaPessoa;
-    for (const auto& historia : containerHistorias) {
-        // if (historia.getDeveloper().get() == person.get()) {
-        //     historiasDaPessoa.push_back(historia.getCode());
-        // }
+    std::vector<std::vector<std::string>> rows = database_.query("SELECT historia FROM historias_associacoes WHERE pessoa='" + escaparTexto(person.get()) + "'");
+    for (const auto& row : rows) {
+        if (!row.empty()) {
+            Code code;
+            code.set(row[0]);
+            historiasDaPessoa.push_back(code);
+        }
     }
     return historiasDaPessoa;
 }
 
-// 10. MOVER HISTÓRIA PARA PLANO DE SPRINT
 void CntrServicoHistoriaUsuario::moverHistoriaDeUsuarioParaPlanoDeSprint(Code userStory, Code project, Code sprintPlan) {
     for (auto& historia : containerHistorias) {
         if (historia.getCode().get() == userStory.get()) {
-            // historia.setSprintPlan(sprintPlan);
             return;
         }
     }
     throw std::invalid_argument("Erro: Historia de usuario nao encontrada para mover.");
 }
 
-// 11. ALTERAR ESTADO DA HISTÓRIA
 void CntrServicoHistoriaUsuario::alterarEstadoHistoriaDeUsuario(Code userStory, State state) {
     for (auto& historia : containerHistorias) {
         if (historia.getCode().get() == userStory.get()) {
-            // historia.setState(state);
+            historia.setState(state);
+            atualizarHistoriaNoBanco(historia);
             return;
         }
     }

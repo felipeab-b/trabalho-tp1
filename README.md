@@ -66,3 +66,6 @@ projeto/
 | Marcus Vinícius | `date.hpp/cpp`, `email.hpp/cpp`, `name.hpp/cpp`, `project.hpp/cpp` |
 | Eduardo Campos | `priority.hpp/cpp`, `time.hpp/cpp`, `userstory.hpp/cpp` |
 | Caio Cordeiro | `text.hpp/cpp`, `sprintplan.hpp/cpp` |
+
+
+
