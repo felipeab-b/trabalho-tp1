@@ -31,3 +31,11 @@ void Project::setEnding(Date ending) {
 Date Project::getEnding() const {
     return ending;
 };
+
+void Project::setScrumMaster(Email scrumMaster) {
+    this->scrumMaster = scrumMaster;
+}
+
+Email Project::getScrumMaster() const {
+    return this->scrumMaster;
+}

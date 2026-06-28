@@ -64,3 +64,27 @@ void UserStory::setState(State state){
 State UserStory::getState() const{
     return this->state;
 }
+
+void UserStory::setProject(Code project) {
+    this->project = project;
+}
+
+Code UserStory::getProject() const {
+    return this->project;
+}
+
+void UserStory::setSprintPlan(Code sprintPlan) {
+    this->sprintPlan = sprintPlan;
+}
+
+Code UserStory::getSprintPlan() const {
+    return this->sprintPlan;
+}
+
+void UserStory::setDeveloper(Email developer) {
+    this->developer = developer;
+}
+
+Email UserStory::getDeveloper() const {
+    return this->developer;
+}
