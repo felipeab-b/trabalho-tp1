@@ -166,7 +166,7 @@ void ProjetoWidget::onRemoverClicked() {
 void ProjetoWidget::onBuscarClicked() {
     try {
         if (codigoInput_->text().isEmpty()) {
-            exibirMensagem("Erro", "Digite um código para buscar.", false);
+            carregarProjetosDoUsuario();
             return;
         }
         
