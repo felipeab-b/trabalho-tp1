@@ -1,7 +1,7 @@
 #ifndef ROLE_HPP
 #define ROLE_HPP
 
-#include "dominios.hpp"
+#include "../dominios.hpp"
 #include <stdexcept>
 
 using namespace std;

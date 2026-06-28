@@ -1,15 +1,27 @@
 #ifndef CTRL_SPRINT_PLAN_SERVICE_HPP
 #define CTRL_SPRINT_PLAN_SERVICE_HPP
 
-#include "ISprintPlanService.hpp"
+#include "../interfaces/ISprintPlanService.hpp"
+#include "../database/sqlite_connection.hpp"
 #include <vector>
 #include <stdexcept>
+#include <string>
 
 class CntrServicoPlanoSprint : public ISprintPlanService {
 private:
     std::vector<SprintPlan> containerPlanos;
+    SQLiteConnection database_;
+
+    void inicializarBanco();
+    void carregarPlanos();
+    void inserirPlanoNoBanco(const SprintPlan& plano);
+    void atualizarPlanoNoBanco(const SprintPlan& plano);
+    void removerPlanoNoBanco(const std::string& code);
+    std::string escaparTexto(const std::string& valor) const;
 
 public:
+    explicit CntrServicoPlanoSprint(const std::string& dbPath = "scrum.db");
+
     void criarPlanoDeSprint(Code code, Text objective, Time capacity, Code project) override;
     SprintPlan lerPlanoDeSprint(Code code) const override;
     void atualizarPlanoDeSprint(Code code, Text objective, Time capacity) override;

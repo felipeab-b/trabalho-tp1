@@ -1,0 +1,45 @@
+# Arquivos compilados
+*.o
+*.a
+*.so
+*.so.*
+
+# MOC (Meta-Object Compiler) do Qt
+moc_*.cpp
+moc_*.o
+
+# RCC (Resource Compiler) do Qt
+qrc_*.cpp
+qrc_*.o
+
+# Executáveis gerados
+scrum_app
+scrum_gui
+
+# Arquivos de build Qt
+.qmake.stash
+Makefile
+Makefile.Debug
+Makefile.Release
+Makefile.CodingStyle
+
+# Arquivos temporários do editor
+*.swp
+*.swo
+*~
+.DS_Store
+.vscode/
+
+# Banco de dados
+*.db
+scrum.db
+
+# Diretórios de debug
+debug/
+release/
+build/
+.build/
+
+# Arquivos de cache
+.cache
+.qmake.cache

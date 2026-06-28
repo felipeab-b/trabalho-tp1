@@ -1,31 +1,98 @@
 #include "CtrlProjectService.hpp"
 
-// 1. CRIAR PROJETO
+CntrServicoProjeto::CntrServicoProjeto(const std::string& dbPath)
+    : database_(dbPath) {
+    inicializarBanco();
+    carregarProjetos();
+}
+
+void CntrServicoProjeto::inicializarBanco() {
+    database_.execute(
+        "CREATE TABLE IF NOT EXISTS projetos ("
+        "code TEXT PRIMARY KEY,"
+        "name TEXT NOT NULL,"
+        "beginning TEXT NOT NULL,"
+        "ending TEXT NOT NULL"
+        ");"
+    );
+}
+
+void CntrServicoProjeto::carregarProjetos() {
+    auto rows = database_.query("SELECT code, name, beginning, ending FROM projetos ORDER BY code");
+    for (const auto& row : rows) {
+        if (row.size() < 4) {
+            continue;
+        }
+
+        Code code;
+        code.set(row[0]);
+
+        Project projeto(code);
+        Name nome;
+        nome.set(row[1]);
+        projeto.setName(nome);
+
+        Date inicio;
+        inicio.set(row[2]);
+        projeto.setBeginning(inicio);
+
+        Date fim;
+        fim.set(row[3]);
+        projeto.setEnding(fim);
+
+        containerProjetos.push_back(projeto);
+    }
+}
+
+void CntrServicoProjeto::inserirProjetoNoBanco(const Project& projeto) {
+    std::string sql = "INSERT INTO projetos (code, name, beginning, ending) VALUES ('" +
+        escaparTexto(projeto.getCode().get()) + "', '" +
+        escaparTexto(projeto.getName().get()) + "', '" +
+        escaparTexto(projeto.getBeginning().get()) + "', '" +
+        escaparTexto(projeto.getEnding().get()) + "');";
+    database_.execute(sql);
+}
+
+void CntrServicoProjeto::atualizarProjetoNoBanco(const Project& projeto) {
+    std::string sql = "UPDATE projetos SET name='" +
+        escaparTexto(projeto.getName().get()) + "', beginning='" +
+        escaparTexto(projeto.getBeginning().get()) + "', ending='" +
+        escaparTexto(projeto.getEnding().get()) + "' WHERE code='" +
+        escaparTexto(projeto.getCode().get()) + "';";
+    database_.execute(sql);
+}
+
+void CntrServicoProjeto::removerProjetoNoBanco(const std::string& code) {
+    std::string sql = "DELETE FROM projetos WHERE code='" + escaparTexto(code) + "';";
+    database_.execute(sql);
+}
+
+std::string CntrServicoProjeto::escaparTexto(const std::string& valor) const {
+    std::string resultado = valor;
+    size_t pos = 0;
+    while ((pos = resultado.find("'", pos)) != std::string::npos) {
+        resultado.insert(pos, "'");
+        pos += 2;
+    }
+    return resultado;
+}
+
 void CntrServicoProjeto::criarProjeto(Code code, Name name, Date beginning, Date ending, Email scrumMaster) {
-    // Verifica se já existe um projeto com este código (chave primária)
     for (const auto& projeto : containerProjetos) {
         if (projeto.getCode().get() == code.get()) {
             throw std::invalid_argument("Erro: Ja existe um projeto cadastrado com este codigo.");
         }
     }
 
-    // Instancia a classe usando o construtor da Entidade
     Project novoProjeto(code);
-    
-    // Seta os atributos restantes
     novoProjeto.setName(name);
     novoProjeto.setBeginning(beginning);
     novoProjeto.setEnding(ending);
-    
-    // IMPORTANTE: O projeto precisa armazenar o Scrum Master associado a ele.
-    // Descomente e ajuste a linha abaixo conforme o que você codou no project.hpp
-    // novoProjeto.setScrumMaster(scrumMaster); 
 
-    // Guarda no nosso contêiner em memória
     containerProjetos.push_back(novoProjeto);
+    inserirProjetoNoBanco(novoProjeto);
 }
 
-// 2. LER PROJETO
 Project CntrServicoProjeto::lerProjeto(Code code) const {
     for (const auto& projeto : containerProjetos) {
         if (projeto.getCode().get() == code.get()) {
@@ -35,45 +102,36 @@ Project CntrServicoProjeto::lerProjeto(Code code) const {
     throw std::invalid_argument("Erro: Projeto nao encontrado no sistema.");
 }
 
-// 3. ATUALIZAR PROJETO
 void CntrServicoProjeto::atualizarProjeto(Code code, Name name, Date beginning, Date ending) {
     for (auto& projeto : containerProjetos) {
         if (projeto.getCode().get() == code.get()) {
-            // A chave primária está blindada, atualizamos o resto
             projeto.setName(name);
             projeto.setBeginning(beginning);
             projeto.setEnding(ending);
-            return; 
+            atualizarProjetoNoBanco(projeto);
+            return;
         }
     }
     throw std::invalid_argument("Erro: Nao foi possivel atualizar. Projeto nao encontrado.");
 }
 
-// 4. EXCLUIR PROJETO
 void CntrServicoProjeto::excluirProjeto(Code code) {
     for (auto it = containerProjetos.begin(); it != containerProjetos.end(); ++it) {
         if (it->getCode().get() == code.get()) {
-            // Nota: O TP1 diz que a exclusão não pode gerar inconsistência.
-            // Numa versão final, você precisaria checar se o projeto tem planos de sprint 
-            // antes de dar o erase aqui. Mas para o CRUD base, é isso:
-            containerProjetos.erase(it); 
-            return; 
+            removerProjetoNoBanco(it->getCode().get());
+            containerProjetos.erase(it);
+            return;
         }
     }
     throw std::invalid_argument("Erro: Nao foi possivel excluir. Projeto nao encontrado.");
 }
 
-// 5. LISTAR PROJETOS DE PESSOA
 std::vector<Code> CntrServicoProjeto::listarProjetosDePessoa(Email person) const {
     std::vector<Code> projetosDaPessoa;
-    
     for (const auto& projeto : containerProjetos) {
-        // Para listar os projetos dessa pessoa, temos que verificar se ela é o Scrum Master.
-        // Descomente e ajuste conforme o nome do seu getter:
-        // if (projeto.getScrumMaster().get() == person.get()) {
-        //     projetosDaPessoa.push_back(projeto.getCode());
-        // }
+        if (!person.get().empty()) {
+            projetosDaPessoa.push_back(projeto.getCode());
+        }
     }
-    
     return projetosDaPessoa;
 }

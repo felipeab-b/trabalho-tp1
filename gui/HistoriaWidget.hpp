@@ -1,0 +1,49 @@
+#ifndef HISTORIAWIDGET_HPP
+#define HISTORIAWIDGET_HPP
+
+#include <QWidget>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QTableWidget>
+#include <QComboBox>
+#include "controllers/CtrlUserStoryService.hpp"
+
+class HistoriaWidget : public QWidget {
+    Q_OBJECT
+
+public:
+    explicit HistoriaWidget(IUserStoryService& service, QWidget *parent = nullptr);
+
+private slots:
+    void onAdicionarClicked();
+    void onAtualizarClicked();
+    void onRemoverClicked();
+    void onBuscarClicked();
+    void onTabelaSelecao();
+    void onLimparClicked();
+
+private:
+    void setupUI();
+    void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
+
+    IUserStoryService& service_;
+    
+    QLineEdit *codigoInput_;
+    QLineEdit *tituloInput_;
+    QLineEdit *papelInput_;
+    QLineEdit *acaoInput_;
+    QLineEdit *valorInput_;
+    QLineEdit *estimativaInput_;
+    QComboBox *prioridadeCombo_;
+    QLineEdit *projetoInput_;
+    QTableWidget *tabelaHistorias_;
+    QPushButton *btnAdicionar_;
+    QPushButton *btnAtualizar_;
+    QPushButton *btnRemover_;
+    QPushButton *btnBuscar_;
+    QPushButton *btnLimpar_;
+    
+    QString codigoSelecionado_;
+};
+
+#endif

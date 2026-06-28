@@ -1,7 +1,7 @@
 #ifndef PRIORITY_HPP
 #define PRIORITY_HPP
 
-#include "dominios.hpp"
+#include "../dominios.hpp"
 #include <stdexcept>
 
 /// @brief Domínio que representa uma prioridade válida.

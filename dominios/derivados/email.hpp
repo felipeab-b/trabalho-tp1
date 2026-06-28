@@ -1,7 +1,7 @@
 #ifndef EMAIL_HPP
 #define EMAIL_HPP
 
-#include "dominios.hpp"
+#include "../dominios.hpp"
 #include <stdexcept>
 #include <cctype>
 

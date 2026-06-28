@@ -1,7 +1,7 @@
 #ifndef TIME_HPP
 #define TIME_HPP
 
-#include "dominios.hpp"
+#include "../dominios.hpp"
 #include <stdexcept>
 
 /// @brief Domínio que representa um tempo válido.
