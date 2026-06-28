@@ -21,6 +21,15 @@ void ConsolePresentation::run() {
         exibirMenu();
         std::cout << "Opcao: ";
         std::cin >> opcao;
+
+        // CORRIGIDO: Tratamento de erro para impedir loop infinito se o usuario digitar letras
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "\nErro: Entrada invalida. Digite apenas numeros.\n" << std::endl;
+            continue;
+        }
+
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         try {

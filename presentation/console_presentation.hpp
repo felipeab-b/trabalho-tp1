@@ -9,7 +9,7 @@
 class ConsolePresentation {
 public:
     ConsolePresentation(IPersonService& servicePessoa,
-        ProjectService& serviceProjeto,
+        IProjectService& serviceProjeto, // CORRIGIDO: Adicionado o 'I' de interface
         ISprintPlanService& servicePlano,
         IUserStoryService& serviceHistoria
     );
