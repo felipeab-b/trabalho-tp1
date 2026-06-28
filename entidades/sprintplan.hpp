@@ -7,19 +7,24 @@
 
 class SprintPlan {
 private:
-  Code code;
-  Text objective;
-  Time capacity;
+    Code code;
+    Text objective;
+    Time capacity;
+    
+    Code project; 
 
 public:
-  SprintPlan(Code);
+    SprintPlan(Code);
 
-  void setObjective(Text);
-  void setCapacity(Time);
+    void setObjective(Text);
+    void setCapacity(Time);
+    
+    void setProject(Code); 
+    Code getProject() const; 
 
-  Code getCode() const;
-  Text getObjective() const;
-  Time getCapacity() const;
+    Code getCode() const;
+    Text getObjective() const;
+    Time getCapacity() const;
 };
 
 #endif

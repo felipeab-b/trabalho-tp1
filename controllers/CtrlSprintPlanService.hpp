@@ -2,6 +2,7 @@
 #define CTRL_SPRINT_PLAN_SERVICE_HPP
 
 #include "../interfaces/ISprintPlanService.hpp"
+#include "../interfaces/IProjectService.hpp"
 #include "../database/sqlite_connection.hpp"
 #include <vector>
 #include <stdexcept>
@@ -11,6 +12,8 @@ class CntrServicoPlanoSprint : public ISprintPlanService {
 private:
     std::vector<SprintPlan> containerPlanos;
     SQLiteConnection database_;
+    
+    IProjectService* servicoProjeto = nullptr; 
 
     void inicializarBanco();
     void carregarPlanos();
@@ -21,6 +24,10 @@ private:
 
 public:
     explicit CntrServicoPlanoSprint(const std::string& dbPath = "scrum.db");
+
+    void setProjectService(IProjectService* servico) {
+        this->servicoProjeto = servico;
+    }
 
     void criarPlanoDeSprint(Code code, Text objective, Time capacity, Code project) override;
     SprintPlan lerPlanoDeSprint(Code code) const override;

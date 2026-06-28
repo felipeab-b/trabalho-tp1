@@ -1,4 +1,26 @@
 #include "CtrlSprintPlanService.hpp"
+#include <ctime>
+#include <cmath>
+#include <iostream>
+
+int calcularDiferencaDias(std::string dataInicio, std::string dataFim) {
+    std::tm tmInicio = {};
+    std::tm tmFim = {};
+
+    tmInicio.tm_mday = std::stoi(dataInicio.substr(0, 2));
+    tmInicio.tm_mon  = std::stoi(dataInicio.substr(3, 2)) - 1; 
+    tmInicio.tm_year = std::stoi(dataInicio.substr(6, 4)) - 1900; 
+
+    tmFim.tm_mday = std::stoi(dataFim.substr(0, 2));
+    tmFim.tm_mon  = std::stoi(dataFim.substr(3, 2)) - 1;
+    tmFim.tm_year = std::stoi(dataFim.substr(6, 4)) - 1900;
+
+    std::time_t tempoInicio = std::mktime(&tmInicio);
+    std::time_t tempoFim = std::mktime(&tmFim);
+
+    double diferencaSegundos = std::difftime(tempoFim, tempoInicio);
+    return std::round(diferencaSegundos / (60 * 60 * 24));
+}
 
 CntrServicoPlanoSprint::CntrServicoPlanoSprint(const std::string& dbPath)
     : database_(dbPath) {
@@ -36,6 +58,10 @@ void CntrServicoPlanoSprint::carregarPlanos() {
         capacity.set(row[2]);
         plano.setCapacity(capacity);
 
+        Code project;
+        project.set(row[3]);
+        plano.setProject(project);
+
         containerPlanos.push_back(plano);
     }
 }
@@ -44,7 +70,8 @@ void CntrServicoPlanoSprint::inserirPlanoNoBanco(const SprintPlan& plano) {
     std::string sql = "INSERT INTO planos_sprint (code, objective, capacity, project) VALUES ('" +
         escaparTexto(plano.getCode().get()) + "', '" +
         escaparTexto(plano.getObjective().get()) + "', '" +
-        escaparTexto(plano.getCapacity().get()) + "', '');";
+        escaparTexto(plano.getCapacity().get()) + "', '" +
+        escaparTexto(plano.getProject().get()) + "');";
     database_.execute(sql);
 }
 
@@ -78,9 +105,29 @@ void CntrServicoPlanoSprint::criarPlanoDeSprint(Code code, Text objective, Time 
         }
     }
 
+    if (servicoProjeto == nullptr) {
+        throw std::logic_error("Erro do Sistema: Servico de Projeto nao foi conectado.");
+    }
+
+    Project projetoAssociado = servicoProjeto->lerProjeto(project);
+    int diasDoProjeto = calcularDiferencaDias(projetoAssociado.getBeginning().get(), projetoAssociado.getEnding().get());
+
+    int somaCapacidades = 0;
+    for (const auto& plano : containerPlanos) {
+        if (plano.getProject().get() == project.get()) {
+            somaCapacidades += std::stoi(plano.getCapacity().get());
+        }
+    }
+
+    int capacidadeNova = std::stoi(capacity.get());
+    if ((somaCapacidades + capacidadeNova) > diasDoProjeto) {
+        throw std::invalid_argument("Erro de Validacao: A capacidade total dos planos excede a duracao do projeto.");
+    }
+
     SprintPlan novoPlano(code);
     novoPlano.setObjective(objective);
     novoPlano.setCapacity(capacity);
+    novoPlano.setProject(project);
 
     containerPlanos.push_back(novoPlano);
     inserirPlanoNoBanco(novoPlano);
@@ -121,7 +168,9 @@ void CntrServicoPlanoSprint::excluirPlanoDeSprint(Code code) {
 std::vector<Code> CntrServicoPlanoSprint::listarPlanosDeSprintDeProjeto(Code project) const {
     std::vector<Code> planosDoProjeto;
     for (const auto& plano : containerPlanos) {
-        planosDoProjeto.push_back(plano.getCode());
+        if (plano.getProject().get() == project.get()) {
+            planosDoProjeto.push_back(plano.getCode());
+        }
     }
     return planosDoProjeto;
 }

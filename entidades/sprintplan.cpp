@@ -23,3 +23,11 @@ Text SprintPlan::getObjective() const {
 Time SprintPlan::getCapacity() const { 
     return capacity; 
 }
+
+void SprintPlan::setProject(Code p) { 
+    project = p; 
+}
+
+Code SprintPlan::getProject() const { 
+    return project; 
+}
