@@ -2,6 +2,8 @@
 #define CTRL_SERVICO_PROJETO_HPP
 
 #include "../interfaces/IProjectService.hpp"
+#include "../interfaces/ISprintPlanService.hpp"
+#include "../interfaces/IUserStoryService.hpp"  
 #include "../database/sqlite_connection.hpp"
 #include <vector>
 #include <stdexcept>
@@ -12,6 +14,9 @@ private:
     std::vector<Project> containerProjetos;
     SQLiteConnection database_;
 
+    ISprintPlanService* servicoPlanoSprint = nullptr;
+    IUserStoryService* servicoHistoriaUsuario = nullptr;
+
     void inicializarBanco();
     void carregarProjetos();
     void inserirProjetoNoBanco(const Project& projeto);
@@ -21,6 +26,13 @@ private:
 
 public:
     explicit CntrServicoProjeto(const std::string& dbPath = "scrum.db");
+
+    void setSprintPlanService(ISprintPlanService* servico) {
+        this->servicoPlanoSprint = servico;
+    }
+    void setUserStoryService(IUserStoryService* servico) {
+        this->servicoHistoriaUsuario = servico;
+    }
 
     void criarProjeto(Code code, Name name, Date beginning, Date ending, Email scrumMaster) override;
     Project lerProjeto(Code code) const override;
