@@ -9,9 +9,10 @@
 class ConsolePresentation {
 public:
     ConsolePresentation(IPersonService& servicePessoa,
-                        IProjectService& serviceProjeto,
-                        ISprintPlanService& servicePlano,
-                        IUserStoryService& serviceHistoria);
+        ProjectService& serviceProjeto,
+        ISprintPlanService& servicePlano,
+        IUserStoryService& serviceHistoria
+    );
     void run();
 
 private:

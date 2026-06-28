@@ -5,9 +5,10 @@
 #include <stdexcept>
 
 ConsolePresentation::ConsolePresentation(IPersonService& servicePessoa,
-                                         IProjectService& serviceProjeto,
-                                         ISprintPlanService& servicePlano,
-                                         IUserStoryService& serviceHistoria)
+    IProjectService& serviceProjeto,
+    ISprintPlanService& servicePlano,
+    IUserStoryService& serviceHistoria
+)
     : servicePessoa_(servicePessoa),
       serviceProjeto_(serviceProjeto),
       servicePlano_(servicePlano),
