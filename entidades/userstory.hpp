@@ -1,4 +1,3 @@
-// userstory.hpp
 #ifndef USERSTORY_HPP
 #define USERSTORY_HPP
 
@@ -7,6 +6,7 @@
 #include "dominios/derivados/time.hpp"
 #include "dominios/derivados/priority.hpp"
 #include "dominios/derivados/state.hpp"
+#include "dominios/derivados/email.hpp"
 
 /// @brief Entidade que representa uma história de usuário.
 ///
@@ -14,7 +14,6 @@
 /// definida na criação e não editável posteriormente.
 /// Uma história de usuário possui título, papel, ação, valor, estimativa de tempo, prioridade e estado,
 /// que determinam o comportamento esperado do sistema.
-
 class UserStory {
     private:
         Code code;          ///< Identificador único da história de usuário (chave primária).
@@ -25,6 +24,10 @@ class UserStory {
         Time estimation;    ///< Estimativa de tempo para implementação da história de usuário, em dias.   
         Priority priority;  ///< Prioridade da história de usuário, que pode ser "ALTA", "MEDIA" ou "BAIXA".
         State state;        ///< Estado atual da história de usuário, que pode ser "A FAZER", "FAZENDO" ou "FEITO".
+        
+        Code project;       ///< Código do projeto ao qual a história pertence.
+        Code sprintPlan;    ///< Código do plano de sprint atual ao qual a história está alocada.
+        Email developer;    ///< Email da pessoa associada como Desenvolvedor da história.
 
     public:
         /// @brief Constrói uma história de usuário com o código fornecido.
@@ -90,6 +93,30 @@ class UserStory {
         /// @brief Obtém o estado da história de usuário.
         /// @return Objeto State com o estado da história de usuário.
         State getState() const;
+
+        /// @brief Define o projeto ao qual a história de usuário pertence.
+        /// @param project Objeto Code com o identificador do projeto.
+        void setProject(Code);
+
+        /// @brief Obtém o projeto ao qual a história de usuário pertence.
+        /// @return Objeto Code com o identificador do projeto.
+        Code getProject() const;
+
+        /// @brief Define o plano de sprint ao qual a história de usuário está alocada.
+        /// @param sprintPlan Objeto Code com o identificador do plano de sprint.
+        void setSprintPlan(Code);
+
+        /// @brief Obtém o plano de sprint ao qual a história de usuário está alocada.
+        /// @return Objeto Code com o identificador do plano de sprint.
+        Code getSprintPlan() const;
+
+        /// @brief Define o desenvolvedor responsável pela história de usuário.
+        /// @param developer Objeto Email com o identificador do desenvolvedor.
+        void setDeveloper(Email);
+
+        /// @brief Obtém o desenvolvedor responsável pela história de usuário.
+        /// @return Objeto Email com o identificador do desenvolvedor.
+        Email getDeveloper() const;
 };
 
 #endif
