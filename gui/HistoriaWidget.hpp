@@ -13,6 +13,7 @@ class HistoriaWidget : public QWidget {
 
 public:
     explicit HistoriaWidget(IUserStoryService& service, QWidget *parent = nullptr);
+    void setProjectCode(const QString& code);
 
 private slots:
     void onAdicionarClicked();
@@ -27,6 +28,7 @@ private:
     void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
 
     IUserStoryService& service_;
+    QString currentProjectCode_;
     
     QLineEdit *codigoInput_;
     QLineEdit *tituloInput_;

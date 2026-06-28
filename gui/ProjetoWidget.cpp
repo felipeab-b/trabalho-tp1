@@ -5,8 +5,8 @@
 #include <QMessageBox>
 #include <QHeaderView>
 
-ProjetoWidget::ProjetoWidget(IProjectService& service, QWidget *parent)
-    : QWidget(parent), service_(service), codigoSelecionado_("") {
+ProjetoWidget::ProjetoWidget(IProjectService& service, const QString& currentUserEmail, QWidget *parent)
+    : QWidget(parent), service_(service), currentUserEmail_(currentUserEmail), codigoSelecionado_("") {
     setupUI();
 }
 
@@ -68,15 +68,19 @@ void ProjetoWidget::setupUI() {
     connect(btnLimpar_, &QPushButton::clicked, this, &ProjetoWidget::onLimparClicked);
     connect(tabelaProjetos_, &QTableWidget::itemSelectionChanged, this, &ProjetoWidget::onTabelaSelecao);
     
+    if (!currentUserEmail_.isEmpty()) {
+        scrumInput_->setText(currentUserEmail_);
+    }
+
+    carregarProjetosDoUsuario();
     setLayout(mainLayout);
 }
 
 void ProjetoWidget::onAdicionarClicked() {
     try {
         if (codigoInput_->text().isEmpty() || nomeInput_->text().isEmpty() || 
-            dataInicioInput_->text().isEmpty() || dataFimInput_->text().isEmpty() ||
-            scrumInput_->text().isEmpty()) {
-            exibirMensagem("Erro", "Preencha todos os campos.", false);
+            dataInicioInput_->text().isEmpty() || dataFimInput_->text().isEmpty()) {
+            exibirMensagem("Erro", "Preencha todos os campos obrigatórios.", false);
             return;
         }
         
@@ -92,11 +96,22 @@ void ProjetoWidget::onAdicionarClicked() {
         Date dataFim;
         dataFim.set(dataFimInput_->text().toStdString());
         
+        QString scrumEmail = scrumInput_->text();
+        if (scrumEmail.isEmpty() && !currentUserEmail_.isEmpty()) {
+            scrumEmail = currentUserEmail_;
+        }
+
+        if (scrumEmail.isEmpty()) {
+            exibirMensagem("Erro", "Informe o email do Scrum Master.", false);
+            return;
+        }
+
         Email scrum;
-        scrum.set(scrumInput_->text().toStdString());
+        scrum.set(scrumEmail.toStdString());
         
         service_.criarProjeto(codigo, nome, dataInicio, dataFim, scrum);
-        exibirMensagem("Sucesso", "Projeto adicionado com sucesso.");
+        exibirMensagem("Sucesso", "Projeto associado ao usuário logado com sucesso.");
+        emit projetoSelecionado(QString::fromStdString(codigo.get()));
         onLimparClicked();
     } catch (const std::exception& ex) {
         exibirMensagem("Erro", QString::fromStdString(ex.what()), false);
@@ -181,6 +196,7 @@ void ProjetoWidget::onTabelaSelecao() {
         nomeInput_->setText(tabelaProjetos_->item(row, 1)->text());
         dataInicioInput_->setText(tabelaProjetos_->item(row, 2)->text());
         dataFimInput_->setText(tabelaProjetos_->item(row, 3)->text());
+        emit projetoSelecionado(codigoSelecionado_);
     }
 }
 
@@ -190,8 +206,38 @@ void ProjetoWidget::onLimparClicked() {
     dataInicioInput_->clear();
     dataFimInput_->clear();
     scrumInput_->clear();
+    if (!currentUserEmail_.isEmpty()) {
+        scrumInput_->setText(currentUserEmail_);
+    }
     tabelaProjetos_->setRowCount(0);
     codigoSelecionado_ = "";
+    carregarProjetosDoUsuario();
+}
+
+void ProjetoWidget::carregarProjetosDoUsuario() {
+    tabelaProjetos_->setRowCount(0);
+
+    if (currentUserEmail_.isEmpty()) {
+        return;
+    }
+
+    try {
+        Email pessoa;
+        pessoa.set(currentUserEmail_.toStdString());
+
+        auto projetos = service_.listarProjetosDePessoa(pessoa);
+        for (const auto& codigo : projetos) {
+            Project projeto = service_.lerProjeto(codigo);
+            int row = tabelaProjetos_->rowCount();
+            tabelaProjetos_->insertRow(row);
+            tabelaProjetos_->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(projeto.getCode().get())));
+            tabelaProjetos_->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(projeto.getName().get())));
+            tabelaProjetos_->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(projeto.getBeginning().get())));
+            tabelaProjetos_->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(projeto.getEnding().get())));
+        }
+    } catch (const std::exception&) {
+        // Ignora se não houver projetos para o usuário atual.
+    }
 }
 
 void ProjetoWidget::exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso) {

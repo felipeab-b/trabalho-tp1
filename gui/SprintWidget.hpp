@@ -12,6 +12,7 @@ class SprintWidget : public QWidget {
 
 public:
     explicit SprintWidget(ISprintPlanService& service, QWidget *parent = nullptr);
+    void setProjectCode(const QString& code);
 
 private slots:
     void onAdicionarClicked();
@@ -26,6 +27,7 @@ private:
     void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
 
     ISprintPlanService& service_;
+    QString currentProjectCode_;
     
     QLineEdit *codigoInput_;
     QLineEdit *objetivoInput_;

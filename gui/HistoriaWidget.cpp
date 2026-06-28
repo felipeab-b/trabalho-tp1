@@ -6,8 +6,15 @@
 #include <QHeaderView>
 
 HistoriaWidget::HistoriaWidget(IUserStoryService& service, QWidget *parent)
-    : QWidget(parent), service_(service), codigoSelecionado_("") {
+    : QWidget(parent), service_(service), currentProjectCode_(""), codigoSelecionado_("") {
     setupUI();
+}
+
+void HistoriaWidget::setProjectCode(const QString& code) {
+    currentProjectCode_ = code;
+    if (!code.isEmpty()) {
+        projetoInput_->setText(code);
+    }
 }
 
 void HistoriaWidget::setupUI() {
@@ -117,8 +124,18 @@ void HistoriaWidget::onAdicionarClicked() {
         Priority prioridade;
         prioridade.set(prioridadeCombo_->currentText().toStdString());
         
+        QString projetoCode = projetoInput_->text();
+        if (projetoCode.isEmpty() && !currentProjectCode_.isEmpty()) {
+            projetoCode = currentProjectCode_;
+        }
+
+        if (projetoCode.isEmpty()) {
+            exibirMensagem("Erro", "Selecione um projeto antes de criar a história.", false);
+            return;
+        }
+
         Code projeto;
-        projeto.set(projetoInput_->text().toStdString());
+        projeto.set(projetoCode.toStdString());
         
         service_.criarHistoriaDeUsuario(codigo, titulo, papel, acao, valor, estimativa, prioridade, projeto);
         exibirMensagem("Sucesso", "História adicionada com sucesso.");
@@ -226,6 +243,9 @@ void HistoriaWidget::onLimparClicked() {
     valorInput_->clear();
     estimativaInput_->clear();
     projetoInput_->clear();
+    if (!currentProjectCode_.isEmpty()) {
+        projetoInput_->setText(currentProjectCode_);
+    }
     prioridadeCombo_->setCurrentIndex(0);
     tabelaHistorias_->setRowCount(0);
     codigoSelecionado_ = "";
