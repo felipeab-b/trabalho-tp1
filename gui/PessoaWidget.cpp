@@ -170,13 +170,14 @@ void PessoaWidget::onRemoverClicked() {
 
 void PessoaWidget::onBuscarClicked() {
     try {
-        if (emailInput_->text().isEmpty()) {
-            exibirMensagem("Erro", "Digite um email para buscar.", false);
+        QString filtro = emailInput_->text().trimmed();
+        if (filtro.isEmpty()) {
+            carregarDados();
             return;
         }
         
         Email email;
-        email.set(emailInput_->text().toStdString());
+        email.set(filtro.toStdString());
         
         Person pessoa = service_.lerPessoa(email);
         tabelaPessoas_->setRowCount(0);
@@ -207,8 +208,8 @@ void PessoaWidget::onLimparClicked() {
     nomeInput_->clear();
     senhaInput_->clear();
     papelCombo_->setCurrentIndex(0);
-    tabelaPessoas_->setRowCount(0);
     emailSelecionado_ = "";
+    carregarDados();
 }
 
 void PessoaWidget::exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso) {
