@@ -12,44 +12,39 @@ void CntrServicoProjeto::inicializarBanco() {
         "code TEXT PRIMARY KEY,"
         "name TEXT NOT NULL,"
         "beginning TEXT NOT NULL,"
-        "ending TEXT NOT NULL"
+        "ending TEXT NOT NULL,"
+        "scrum_master TEXT NOT NULL" 
         ");"
     );
 }
 
 void CntrServicoProjeto::carregarProjetos() {
-    auto rows = database_.query("SELECT code, name, beginning, ending FROM projetos ORDER BY code");
+    auto rows = database_.query("SELECT code, name, beginning, ending, scrum_master FROM projetos ORDER BY code");
     for (const auto& row : rows) {
-        if (row.size() < 4) {
+        if (row.size() < 5) {
             continue;
         }
 
-        Code code;
-        code.set(row[0]);
-
+        Code code; code.set(row[0]);
         Project projeto(code);
-        Name nome;
-        nome.set(row[1]);
-        projeto.setName(nome);
-
-        Date inicio;
-        inicio.set(row[2]);
-        projeto.setBeginning(inicio);
-
-        Date fim;
-        fim.set(row[3]);
-        projeto.setEnding(fim);
+        
+        Name nome; nome.set(row[1]); projeto.setName(nome);
+        Date inicio; inicio.set(row[2]); projeto.setBeginning(inicio);
+        Date fim; fim.set(row[3]); projeto.setEnding(fim);
+        
+        Email scrumMaster; scrumMaster.set(row[4]); projeto.setScrumMaster(scrumMaster);
 
         containerProjetos.push_back(projeto);
     }
 }
 
 void CntrServicoProjeto::inserirProjetoNoBanco(const Project& projeto) {
-    std::string sql = "INSERT INTO projetos (code, name, beginning, ending) VALUES ('" +
+    std::string sql = "INSERT INTO projetos (code, name, beginning, ending, scrum_master) VALUES ('" +
         escaparTexto(projeto.getCode().get()) + "', '" +
         escaparTexto(projeto.getName().get()) + "', '" +
         escaparTexto(projeto.getBeginning().get()) + "', '" +
-        escaparTexto(projeto.getEnding().get()) + "');";
+        escaparTexto(projeto.getEnding().get()) + "', '" +
+        escaparTexto(projeto.getScrumMaster().get()) + "');";
     database_.execute(sql);
 }
 
@@ -57,7 +52,8 @@ void CntrServicoProjeto::atualizarProjetoNoBanco(const Project& projeto) {
     std::string sql = "UPDATE projetos SET name='" +
         escaparTexto(projeto.getName().get()) + "', beginning='" +
         escaparTexto(projeto.getBeginning().get()) + "', ending='" +
-        escaparTexto(projeto.getEnding().get()) + "' WHERE code='" +
+        escaparTexto(projeto.getEnding().get()) + "', scrum_master='" +
+        escaparTexto(projeto.getScrumMaster().get()) + "' WHERE code='" +
         escaparTexto(projeto.getCode().get()) + "';";
     database_.execute(sql);
 }
@@ -88,6 +84,7 @@ void CntrServicoProjeto::criarProjeto(Code code, Name name, Date beginning, Date
     novoProjeto.setName(name);
     novoProjeto.setBeginning(beginning);
     novoProjeto.setEnding(ending);
+    novoProjeto.setScrumMaster(scrumMaster); 
 
     containerProjetos.push_back(novoProjeto);
     inserirProjetoNoBanco(novoProjeto);
@@ -116,6 +113,20 @@ void CntrServicoProjeto::atualizarProjeto(Code code, Name name, Date beginning, 
 }
 
 void CntrServicoProjeto::excluirProjeto(Code code) {
+    if (servicoPlanoSprint != nullptr) {
+        auto planos = servicoPlanoSprint->listarPlanosDeSprintDeProjeto(code);
+        if (!planos.empty()) {
+            throw std::invalid_argument("Acesso Negado: Este projeto ainda possui Planos de Sprint vinculados a ele.");
+        }
+    }
+
+    if (servicoHistoriaUsuario != nullptr) {
+        auto historias = servicoHistoriaUsuario->listarHistoriasDeUsuarioDeProjeto(code);
+        if (!historias.empty()) {
+            throw std::invalid_argument("Acesso Negado: Este projeto ainda possui Historias de Usuario vinculadas a ele.");
+        }
+    }
+
     for (auto it = containerProjetos.begin(); it != containerProjetos.end(); ++it) {
         if (it->getCode().get() == code.get()) {
             removerProjetoNoBanco(it->getCode().get());
@@ -129,7 +140,7 @@ void CntrServicoProjeto::excluirProjeto(Code code) {
 std::vector<Code> CntrServicoProjeto::listarProjetosDePessoa(Email person) const {
     std::vector<Code> projetosDaPessoa;
     for (const auto& projeto : containerProjetos) {
-        if (!person.get().empty()) {
+        if (projeto.getScrumMaster().get() == person.get()) {
             projetosDaPessoa.push_back(projeto.getCode());
         }
     }
