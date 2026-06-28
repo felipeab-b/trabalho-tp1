@@ -1,4 +1,5 @@
 #include "CtrlUserStoryService.hpp"
+#include <iostream>
 
 CntrServicoHistoriaUsuario::CntrServicoHistoriaUsuario(const std::string& dbPath)
     : database_(dbPath) {
@@ -16,7 +17,9 @@ void CntrServicoHistoriaUsuario::inicializarBanco() {
         "value TEXT NOT NULL,"
         "estimation TEXT NOT NULL,"
         "priority TEXT NOT NULL,"
-        "state TEXT NOT NULL"
+        "state TEXT NOT NULL,"
+        "project TEXT,"
+        "sprint_plan TEXT"
         ");"
     );
     database_.execute(
@@ -28,9 +31,9 @@ void CntrServicoHistoriaUsuario::inicializarBanco() {
 }
 
 void CntrServicoHistoriaUsuario::carregarHistorias() {
-    auto rows = database_.query("SELECT code, title, role, action, value, estimation, priority, state FROM historias_usuario ORDER BY code");
+    auto rows = database_.query("SELECT code, title, role, action, value, estimation, priority, state, project, sprint_plan FROM historias_usuario ORDER BY code");
     for (const auto& row : rows) {
-        if (row.size() < 8) {
+        if (row.size() < 10) {
             continue;
         }
 
@@ -38,40 +41,23 @@ void CntrServicoHistoriaUsuario::carregarHistorias() {
         code.set(row[0]);
 
         UserStory historia(code);
-        Text title;
-        title.set(row[1]);
-        historia.setTitle(title);
+        Text title; title.set(row[1]); historia.setTitle(title);
+        Text role; role.set(row[2]); historia.setRole(role);
+        Text action; action.set(row[3]); historia.setAction(action);
+        Text value; value.set(row[4]); historia.setValue(value);
+        Time estimation; estimation.set(row[5]); historia.setEstimation(estimation);
+        Priority priority; priority.set(row[6]); historia.setPriority(priority);
+        State state; state.set(row[7]); historia.setState(state);
 
-        Text role;
-        role.set(row[2]);
-        historia.setRole(role);
-
-        Text action;
-        action.set(row[3]);
-        historia.setAction(action);
-
-        Text value;
-        value.set(row[4]);
-        historia.setValue(value);
-
-        Time estimation;
-        estimation.set(row[5]);
-        historia.setEstimation(estimation);
-
-        Priority priority;
-        priority.set(row[6]);
-        historia.setPriority(priority);
-
-        State state;
-        state.set(row[7]);
-        historia.setState(state);
+        Code project; project.set(row[8]); historia.setProject(project);
+        Code sprintPlan; sprintPlan.set(row[9]); historia.setSprintPlan(sprintPlan);
 
         containerHistorias.push_back(historia);
     }
 }
 
 void CntrServicoHistoriaUsuario::inserirHistoriaNoBanco(const UserStory& historia) {
-    std::string sql = "INSERT INTO historias_usuario (code, title, role, action, value, estimation, priority, state) VALUES ('" +
+    std::string sql = "INSERT INTO historias_usuario (code, title, role, action, value, estimation, priority, state, project, sprint_plan) VALUES ('" +
         escaparTexto(historia.getCode().get()) + "', '" +
         escaparTexto(historia.getTitle().get()) + "', '" +
         escaparTexto(historia.getRole().get()) + "', '" +
@@ -79,7 +65,9 @@ void CntrServicoHistoriaUsuario::inserirHistoriaNoBanco(const UserStory& histori
         escaparTexto(historia.getValue().get()) + "', '" +
         escaparTexto(historia.getEstimation().get()) + "', '" +
         escaparTexto(historia.getPriority().get()) + "', '" +
-        escaparTexto(historia.getState().get()) + "');";
+        escaparTexto(historia.getState().get()) + "', '" +
+        escaparTexto(historia.getProject().get()) + "', '" +
+        escaparTexto(historia.getSprintPlan().get()) + "');";
     database_.execute(sql);
 }
 
@@ -91,7 +79,9 @@ void CntrServicoHistoriaUsuario::atualizarHistoriaNoBanco(const UserStory& histo
         escaparTexto(historia.getValue().get()) + "', estimation='" +
         escaparTexto(historia.getEstimation().get()) + "', priority='" +
         escaparTexto(historia.getPriority().get()) + "', state='" +
-        escaparTexto(historia.getState().get()) + "' WHERE code='" +
+        escaparTexto(historia.getState().get()) + "', project='" +
+        escaparTexto(historia.getProject().get()) + "', sprint_plan='" +
+        escaparTexto(historia.getSprintPlan().get()) + "' WHERE code='" +
         escaparTexto(historia.getCode().get()) + "';";
     database_.execute(sql);
 }
@@ -139,6 +129,7 @@ void CntrServicoHistoriaUsuario::criarHistoriaDeUsuario(Code code, Text title, T
     novaHistoria.setValue(value);
     novaHistoria.setEstimation(estimation);
     novaHistoria.setPriority(priority);
+    novaHistoria.setProject(project); 
 
     State estadoInicial;
     estadoInicial.set("A FAZER");
@@ -189,17 +180,32 @@ void CntrServicoHistoriaUsuario::associarPessoaAHistoriaDeUsuario(Code userStory
     auto rows = database_.query("SELECT historia FROM historias_associacoes WHERE historia='" + escaparTexto(userStory.get()) + "' AND pessoa='" + escaparTexto(person.get()) + "'");
     if (rows.empty()) {
         inserirAssociacao(userStory.get(), person.get());
+        for (auto& historia : containerHistorias) {
+            if (historia.getCode().get() == userStory.get()) {
+                historia.setDeveloper(person);
+                break;
+            }
+        }
     }
 }
 
 void CntrServicoHistoriaUsuario::removerAssociacaoPessoaHistoriaDeUsuario(Code userStory, Email person) {
     removerAssociacao(userStory.get(), person.get());
+    for (auto& historia : containerHistorias) {
+        if (historia.getCode().get() == userStory.get()) {
+            Email emailVazio;
+            historia.setDeveloper(emailVazio);
+            break;
+        }
+    }
 }
 
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDeProjeto(Code project) const {
     std::vector<Code> historiasDoProjeto;
     for (const auto& historia : containerHistorias) {
-        historiasDoProjeto.push_back(historia.getCode());
+        if (historia.getProject().get() == project.get()) {
+            historiasDoProjeto.push_back(historia.getCode());
+        }
     }
     return historiasDoProjeto;
 }
@@ -207,7 +213,9 @@ std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDeProjeto(
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePlanoDeSprint(Code sprintPlan) const {
     std::vector<Code> historiasDoPlano;
     for (const auto& historia : containerHistorias) {
-        historiasDoPlano.push_back(historia.getCode());
+        if (historia.getSprintPlan().get() == sprintPlan.get()) {
+            historiasDoPlano.push_back(historia.getCode());
+        }
     }
     return historiasDoPlano;
 }
@@ -226,12 +234,37 @@ std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePessoa(E
 }
 
 void CntrServicoHistoriaUsuario::moverHistoriaDeUsuarioParaPlanoDeSprint(Code userStory, Code project, Code sprintPlan) {
+    if (servicoPlanoSprint == nullptr) {
+        throw std::logic_error("Erro Interno: Servico de Plano de Sprint nao conectado.");
+    }
+
+    SprintPlan planoDestino = servicoPlanoSprint->lerPlanoDeSprint(sprintPlan);
+    int capacidadeMaxima = std::stoi(planoDestino.getCapacity().get());
+
+    int somaEstimativasAtuais = 0;
+    UserStory* historiaAlvo = nullptr;
+
     for (auto& historia : containerHistorias) {
+        if (historia.getSprintPlan().get() == sprintPlan.get()) {
+            somaEstimativasAtuais += std::stoi(historia.getEstimation().get());
+        }
         if (historia.getCode().get() == userStory.get()) {
-            return;
+            historiaAlvo = &historia;
         }
     }
-    throw std::invalid_argument("Erro: Historia de usuario nao encontrada para mover.");
+
+    if (historiaAlvo == nullptr) {
+        throw std::invalid_argument("Erro: Historia de usuario nao encontrada.");
+    }
+
+    int estimativaNova = std::stoi(historiaAlvo->getEstimation().get());
+    if ((somaEstimativasAtuais + estimativaNova) > capacidadeMaxima) {
+        throw std::invalid_argument("Erro de Validacao: A estimativa dessa historia excede a capacidade restante do Plano de Sprint.");
+    }
+
+    historiaAlvo->setProject(project);
+    historiaAlvo->setSprintPlan(sprintPlan);
+    atualizarHistoriaNoBanco(*historiaAlvo);
 }
 
 void CntrServicoHistoriaUsuario::alterarEstadoHistoriaDeUsuario(Code userStory, State state) {

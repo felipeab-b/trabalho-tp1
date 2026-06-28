@@ -2,6 +2,7 @@
 #define CTRL_USER_STORY_SERVICE_HPP
 
 #include "../interfaces/IUserStoryService.hpp"
+#include "../interfaces/ISprintPlanService.hpp"
 #include "../database/sqlite_connection.hpp"
 #include <vector>
 #include <stdexcept>
@@ -11,6 +12,8 @@ class CntrServicoHistoriaUsuario : public IUserStoryService {
 private:
     std::vector<UserStory> containerHistorias;
     SQLiteConnection database_;
+
+    ISprintPlanService* servicoPlanoSprint = nullptr;
 
     void inicializarBanco();
     void carregarHistorias();
@@ -23,6 +26,10 @@ private:
 
 public:
     explicit CntrServicoHistoriaUsuario(const std::string& dbPath = "scrum.db");
+
+    void setSprintPlanService(ISprintPlanService* servico) {
+        this->servicoPlanoSprint = servico;
+    }
 
     void criarHistoriaDeUsuario(Code code, Text title, Text role, Text action,
                                 Text value, Time estimation, Priority priority,
