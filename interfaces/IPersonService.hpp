@@ -50,6 +50,8 @@ class IPersonService {
         ///         Mestre Scrum de algum projeto ou está associada a história de usuário).
         virtual void excluirPessoa(Email email) = 0;
 
+        virtual std::vector<Person> listarTodasAsPessoas() const = 0;
+
         /// @brief Destrutor virtual da interface.
         virtual ~IPersonService() {}
 };

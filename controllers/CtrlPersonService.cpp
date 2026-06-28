@@ -128,3 +128,7 @@ void CntrServicoPessoa::excluirPessoa(Email email) {
 
     throw std::invalid_argument("Erro: Nao foi possivel excluir. Pessoa nao encontrada.");
 }
+
+std::vector<Person> CntrServicoPessoa::listarTodasAsPessoas() const {
+    return containerPessoas;
+}

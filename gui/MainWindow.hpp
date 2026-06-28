@@ -17,7 +17,9 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(CntrServicoPessoa* p, CntrServicoProjeto* proj, 
+               CntrServicoPlanoSprint* sprint, CntrServicoHistoriaUsuario* hist, 
+               QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
@@ -33,7 +35,6 @@ private:
     SprintWidget *sprintWidget_;
     HistoriaWidget *historiaWidget_;
     
-    void initializeServices();
     void createTabs();
     void setupUI();
 };

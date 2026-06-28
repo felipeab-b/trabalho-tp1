@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QHeaderView>
+#include <QDebug>
 
 PessoaWidget::PessoaWidget(IPersonService& service, QWidget *parent)
     : QWidget(parent), service_(service), emailSelecionado_("") {
@@ -73,8 +74,22 @@ void PessoaWidget::setupUI() {
 }
 
 void PessoaWidget::carregarDados() {
-    // TODO: Implementar listagem de todas as pessoas
-    // Por enquanto, a tabela começa vazia
+    try {
+        tabelaPessoas_->setRowCount(0);
+        
+        auto pessoas = service_.listarTodasAsPessoas(); 
+        
+        for (const auto& p : pessoas) {
+            int row = tabelaPessoas_->rowCount();
+            tabelaPessoas_->insertRow(row);
+            
+            tabelaPessoas_->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(p.getEmail().get())));
+            tabelaPessoas_->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(p.getName().get())));
+            tabelaPessoas_->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(p.getRole().get())));
+        }
+    } catch (const std::exception& ex) {
+        qDebug() << "Erro ao carregar dados:" << ex.what();
+    }
 }
 
 void PessoaWidget::onAdicionarClicked() {
@@ -98,6 +113,7 @@ void PessoaWidget::onAdicionarClicked() {
         
         service_.criarPessoa(email, nome, senha, papel);
         exibirMensagem("Sucesso", "Pessoa adicionada com sucesso.");
+
         onLimparClicked();
         carregarDados();
     } catch (const std::exception& ex) {

@@ -18,6 +18,7 @@ private:
     void atualizarPessoaNoBanco(const Person& pessoa);
     void removerPessoaNoBanco(const std::string& email);
     std::string escaparTexto(const std::string& valor) const;
+    std::vector<Person> listarTodasAsPessoas() const override;
 
 public:
     explicit CntrServicoPessoa(const std::string& dbPath = "scrum.db");
