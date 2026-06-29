@@ -30,7 +30,8 @@ public:
     ConsolePresentation(IPersonService& servicePessoa,
         IProjectService& serviceProjeto,
         ISprintPlanService& servicePlano,
-        IUserStoryService& serviceHistoria
+        IUserStoryService& serviceHistoria,
+        const std::string& currentUserRole = ""
     );
 
     /**
@@ -79,6 +80,14 @@ private:
     void atualizarHistoria();
     /** @brief Fluxo de captura e chamada para remover uma história de usuário. */
     void removerHistoria();
+    /** @brief Fluxo de captura e chamada para associar uma pessoa a uma história de usuário. */
+    void associarPessoaHistoria();
+    /** @brief Fluxo de captura e chamada para remover a associação de uma pessoa a uma história de usuário. */
+    void removerAssociacaoPessoaHistoria();
+    /** @brief Fluxo de captura e chamada para mover uma história de usuário para um plano de sprint. */
+    void moverHistoriaParaPlanoSprint();
+    /** @brief Fluxo de captura e chamada para alterar o estado de uma história de usuário. */
+    void alterarEstadoHistoria();
 
     /**
      * @brief Lê e valida um e-mail a partir da entrada padrão.
@@ -174,10 +183,15 @@ private:
      */
     void exibirHistoria(const UserStory& historia) const;
 
+    void configurarContextoUsuario();
+    bool isProductOwner() const;
+    bool isScrumMaster() const;
+
     IPersonService& servicePessoa_;       /**< Referência interna ao serviço de gerenciamento de pessoas. */
     IProjectService& serviceProjeto_;     /**< Referência interna ao serviço de gerenciamento de projetos. */
     ISprintPlanService& servicePlano_;    /**< Referência interna ao serviço de planos de sprint. */
     IUserStoryService& serviceHistoria_;  /**< Referência interna ao serviço de histórias de usuário. */
+    std::string currentUserRole_;
 };
 
 #endif

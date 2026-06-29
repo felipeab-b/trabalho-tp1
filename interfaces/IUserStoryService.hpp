@@ -2,6 +2,7 @@
 #define IUSERSTORY_SERVICE_HPP
 
 #include <vector>
+#include <string>
 #include "../entidades/userstory.hpp"
 #include "../dominios/derivados/code.hpp"
 #include "../dominios/derivados/text.hpp"
@@ -17,6 +18,8 @@
 /// depende.
 class IUserStoryService {
     public:
+        virtual void setCurrentUser(const std::string& email, const std::string& role) = 0;
+
         /// @brief Cria uma nova história de usuário.
         ///
         /// Apenas Proprietário de Produto pode criar história de usuário, e

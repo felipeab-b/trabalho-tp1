@@ -11,15 +11,29 @@
 ConsolePresentation::ConsolePresentation(IPersonService& servicePessoa,
     IProjectService& serviceProjeto,
     ISprintPlanService& servicePlano,
-    IUserStoryService& serviceHistoria
+    IUserStoryService& serviceHistoria,
+    const std::string& currentUserRole
 )
     : servicePessoa_(servicePessoa),
       serviceProjeto_(serviceProjeto),
       servicePlano_(servicePlano),
-      serviceHistoria_(serviceHistoria) {}
+      serviceHistoria_(serviceHistoria),
+      currentUserRole_(currentUserRole) {
+    configurarContextoUsuario();
+}
 
 void ConsolePresentation::run() {
     int opcao = -1;
+
+    if (currentUserRole_.empty()) {
+        std::cout << "Papel do usuario atual (DESENVOLVEDOR, MESTRE SCRUM, PROPRIETARIO DE PRODUTO) [opcional]: ";
+        std::string papel;
+        std::getline(std::cin, papel);
+        if (!papel.empty()) {
+            currentUserRole_ = papel;
+            configurarContextoUsuario();
+        }
+    }
 
     while (opcao != 0) {
         exibirMenu();
@@ -53,6 +67,10 @@ void ConsolePresentation::run() {
                 case 14: buscarHistoria(); break;
                 case 15: atualizarHistoria(); break;
                 case 16: removerHistoria(); break;
+                case 17: associarPessoaHistoria(); break;
+                case 18: removerAssociacaoPessoaHistoria(); break;
+                case 19: moverHistoriaParaPlanoSprint(); break;
+                case 20: alterarEstadoHistoria(); break;
                 case 0:
                     std::cout << "Encerrando o sistema..." << std::endl;
                     break;
@@ -84,6 +102,10 @@ void ConsolePresentation::exibirMenu() const {
     std::cout << "14. Buscar historia de usuario" << std::endl;
     std::cout << "15. Atualizar historia de usuario" << std::endl;
     std::cout << "16. Remover historia de usuario" << std::endl;
+    std::cout << "17. Associar pessoa a historia" << std::endl;
+    std::cout << "18. Remover associacao de pessoa da historia" << std::endl;
+    std::cout << "19. Mover historia para plano de sprint" << std::endl;
+    std::cout << "20. Alterar estado da historia" << std::endl;
     std::cout << "0. Sair" << std::endl;
 }
 
@@ -214,6 +236,50 @@ void ConsolePresentation::removerHistoria() {
     Code codigo = lerCodigo("Codigo da historia para remover: ");
     serviceHistoria_.excluirHistoriaDeUsuario(codigo);
     std::cout << "Historia de usuario removida com sucesso." << std::endl;
+}
+
+void ConsolePresentation::associarPessoaHistoria() {
+    Code historia = lerCodigo("Codigo da historia: ");
+    Email pessoa = lerEmail("Email da pessoa: ");
+    serviceHistoria_.associarPessoaAHistoriaDeUsuario(historia, pessoa);
+    std::cout << "Associacao realizada com sucesso." << std::endl;
+}
+
+void ConsolePresentation::removerAssociacaoPessoaHistoria() {
+    Code historia = lerCodigo("Codigo da historia: ");
+    Email pessoa = lerEmail("Email da pessoa: ");
+    serviceHistoria_.removerAssociacaoPessoaHistoriaDeUsuario(historia, pessoa);
+    std::cout << "Associacao removida com sucesso." << std::endl;
+}
+
+void ConsolePresentation::moverHistoriaParaPlanoSprint() {
+    Code historia = lerCodigo("Codigo da historia: ");
+    Code projeto = lerCodigo("Codigo do projeto: ");
+    Code plano = lerCodigo("Codigo do plano de sprint: ");
+    serviceHistoria_.moverHistoriaDeUsuarioParaPlanoDeSprint(historia, projeto, plano);
+    std::cout << "Historia movida com sucesso." << std::endl;
+}
+
+void ConsolePresentation::alterarEstadoHistoria() {
+    Code historia = lerCodigo("Codigo da historia: ");
+    State estado = lerEstado("Novo estado (A FAZER, FAZENDO, FEITO): ");
+    serviceHistoria_.alterarEstadoHistoriaDeUsuario(historia, estado);
+    std::cout << "Estado alterado com sucesso." << std::endl;
+}
+
+void ConsolePresentation::configurarContextoUsuario() {
+    servicePessoa_.setCurrentUser("", currentUserRole_);
+    serviceProjeto_.setCurrentUser("", currentUserRole_);
+    servicePlano_.setCurrentUser("", currentUserRole_);
+    serviceHistoria_.setCurrentUser("", currentUserRole_);
+}
+
+bool ConsolePresentation::isProductOwner() const {
+    return currentUserRole_ == "PROPRIETARIO DE PRODUTO";
+}
+
+bool ConsolePresentation::isScrumMaster() const {
+    return currentUserRole_ == "MESTRE SCRUM";
 }
 
 Email ConsolePresentation::lerEmail(const std::string& prompt) const {

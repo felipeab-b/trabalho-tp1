@@ -74,6 +74,33 @@ void HistoriaWidget::setupUI() {
     btnLayout->addWidget(btnBuscar_);
     btnLayout->addWidget(btnLimpar_);
     mainLayout->addLayout(btnLayout);
+
+    QHBoxLayout *workflowLayout = new QHBoxLayout();
+    workflowLayout->addWidget(new QLabel("Desenvolvedor:"));
+    desenvolvedorInput_ = new QLineEdit();
+    workflowLayout->addWidget(desenvolvedorInput_);
+
+    workflowLayout->addWidget(new QLabel("Plano Sprint:"));
+    planoSprintInput_ = new QLineEdit();
+    workflowLayout->addWidget(planoSprintInput_);
+
+    workflowLayout->addWidget(new QLabel("Estado:"));
+    estadoCombo_ = new QComboBox();
+    estadoCombo_->addItems({"A FAZER", "FAZENDO", "FEITO"});
+    workflowLayout->addWidget(estadoCombo_);
+    mainLayout->addLayout(workflowLayout);
+
+    QHBoxLayout *btnWorkflowLayout = new QHBoxLayout();
+    btnAssociar_ = new QPushButton("Associar pessoa");
+    btnRemoverAssociacao_ = new QPushButton("Remover associação");
+    btnMoverSprint_ = new QPushButton("Mover para sprint");
+    btnAlterarEstado_ = new QPushButton("Alterar estado");
+
+    btnWorkflowLayout->addWidget(btnAssociar_);
+    btnWorkflowLayout->addWidget(btnRemoverAssociacao_);
+    btnWorkflowLayout->addWidget(btnMoverSprint_);
+    btnWorkflowLayout->addWidget(btnAlterarEstado_);
+    mainLayout->addLayout(btnWorkflowLayout);
     
     tabelaHistorias_ = new QTableWidget();
     tabelaHistorias_->setColumnCount(4);
@@ -87,6 +114,10 @@ void HistoriaWidget::setupUI() {
     connect(btnAtualizar_, &QPushButton::clicked, this, &HistoriaWidget::onAtualizarClicked);
     connect(btnRemover_, &QPushButton::clicked, this, &HistoriaWidget::onRemoverClicked);
     connect(btnBuscar_, &QPushButton::clicked, this, &HistoriaWidget::onBuscarClicked);
+    connect(btnAssociar_, &QPushButton::clicked, this, &HistoriaWidget::onAssociarClicked);
+    connect(btnRemoverAssociacao_, &QPushButton::clicked, this, &HistoriaWidget::onRemoverAssociacaoClicked);
+    connect(btnMoverSprint_, &QPushButton::clicked, this, &HistoriaWidget::onMoverSprintClicked);
+    connect(btnAlterarEstado_, &QPushButton::clicked, this, &HistoriaWidget::onAlterarEstadoClicked);
     connect(btnLimpar_, &QPushButton::clicked, this, &HistoriaWidget::onLimparClicked);
     connect(tabelaHistorias_, &QTableWidget::itemSelectionChanged, this, &HistoriaWidget::onTabelaSelecao);
     
@@ -99,6 +130,12 @@ void HistoriaWidget::aplicarPermissoes() {
     btnAdicionar_->setEnabled(isProductOwner);
     btnAtualizar_->setEnabled(isProductOwner);
     btnRemover_->setEnabled(isProductOwner);
+
+    const bool isScrumMaster = currentUserRole_.toStdString() == "MESTRE SCRUM";
+    btnAssociar_->setEnabled(isScrumMaster);
+    btnRemoverAssociacao_->setEnabled(isScrumMaster);
+    btnMoverSprint_->setEnabled(isScrumMaster);
+    btnAlterarEstado_->setEnabled(isScrumMaster);
 }
 
 void HistoriaWidget::onAdicionarClicked() {
@@ -232,6 +269,89 @@ void HistoriaWidget::onBuscarClicked() {
     }
 }
 
+void HistoriaWidget::onAssociarClicked() {
+    try {
+        if (codigoSelecionado_.isEmpty() || desenvolvedorInput_->text().isEmpty()) {
+            exibirMensagem("Erro", "Selecione uma história e informe um desenvolvedor.", false);
+            return;
+        }
+
+        Code codigo;
+        codigo.set(codigoSelecionado_.toStdString());
+
+        Email desenvolvedor;
+        desenvolvedor.set(desenvolvedorInput_->text().toStdString());
+
+        service_.associarPessoaAHistoriaDeUsuario(codigo, desenvolvedor);
+        exibirMensagem("Sucesso", "Pessoa associada com sucesso.");
+    } catch (const std::exception& ex) {
+        exibirMensagem("Erro", QString::fromStdString(ex.what()), false);
+    }
+}
+
+void HistoriaWidget::onRemoverAssociacaoClicked() {
+    try {
+        if (codigoSelecionado_.isEmpty() || desenvolvedorInput_->text().isEmpty()) {
+            exibirMensagem("Erro", "Selecione uma história e informe o desenvolvedor a remover.", false);
+            return;
+        }
+
+        Code codigo;
+        codigo.set(codigoSelecionado_.toStdString());
+
+        Email desenvolvedor;
+        desenvolvedor.set(desenvolvedorInput_->text().toStdString());
+
+        service_.removerAssociacaoPessoaHistoriaDeUsuario(codigo, desenvolvedor);
+        exibirMensagem("Sucesso", "Associação removida com sucesso.");
+    } catch (const std::exception& ex) {
+        exibirMensagem("Erro", QString::fromStdString(ex.what()), false);
+    }
+}
+
+void HistoriaWidget::onMoverSprintClicked() {
+    try {
+        if (codigoSelecionado_.isEmpty() || projetoInput_->text().isEmpty() || planoSprintInput_->text().isEmpty()) {
+            exibirMensagem("Erro", "Selecione uma história, informe o projeto e o plano de sprint.", false);
+            return;
+        }
+
+        Code codigo;
+        codigo.set(codigoSelecionado_.toStdString());
+
+        Code projeto;
+        projeto.set(projetoInput_->text().toStdString());
+
+        Code plano;
+        plano.set(planoSprintInput_->text().toStdString());
+
+        service_.moverHistoriaDeUsuarioParaPlanoDeSprint(codigo, projeto, plano);
+        exibirMensagem("Sucesso", "História movida para o plano de sprint com sucesso.");
+    } catch (const std::exception& ex) {
+        exibirMensagem("Erro", QString::fromStdString(ex.what()), false);
+    }
+}
+
+void HistoriaWidget::onAlterarEstadoClicked() {
+    try {
+        if (codigoSelecionado_.isEmpty()) {
+            exibirMensagem("Erro", "Selecione uma história para alterar o estado.", false);
+            return;
+        }
+
+        Code codigo;
+        codigo.set(codigoSelecionado_.toStdString());
+
+        State estado;
+        estado.set(estadoCombo_->currentText().toStdString());
+
+        service_.alterarEstadoHistoriaDeUsuario(codigo, estado);
+        exibirMensagem("Sucesso", "Estado da história atualizado com sucesso.");
+    } catch (const std::exception& ex) {
+        exibirMensagem("Erro", QString::fromStdString(ex.what()), false);
+    }
+}
+
 void HistoriaWidget::onTabelaSelecao() {
     int row = tabelaHistorias_->currentRow();
     if (row >= 0) {
@@ -251,10 +371,13 @@ void HistoriaWidget::onLimparClicked() {
     valorInput_->clear();
     estimativaInput_->clear();
     projetoInput_->clear();
+    desenvolvedorInput_->clear();
+    planoSprintInput_->clear();
     if (!currentProjectCode_.isEmpty()) {
         projetoInput_->setText(currentProjectCode_);
     }
     prioridadeCombo_->setCurrentIndex(0);
+    estadoCombo_->setCurrentIndex(0);
     tabelaHistorias_->setRowCount(0);
     codigoSelecionado_ = "";
 }

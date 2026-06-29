@@ -2,6 +2,7 @@
 #define IPERSON_SERVICE_HPP
 
 #include <vector>
+#include <string>
 #include "../entidades/person.hpp"
 #include "../dominios/derivados/email.hpp"
 #include "../dominios/derivados/name.hpp"
@@ -17,6 +18,8 @@
 /// virtuais puros (Requisito 14 e 19 do Trabalho).
 class IPersonService {
     public:
+        virtual void setCurrentUser(const std::string& email, const std::string& role) = 0;
+
         /// @brief Cria uma nova pessoa no sistema.
         /// @param email Email da pessoa, identificador único (chave primária).
         /// @param name Nome da pessoa.

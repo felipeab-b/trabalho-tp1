@@ -20,6 +20,10 @@ private slots:
     void onAtualizarClicked();
     void onRemoverClicked();
     void onBuscarClicked();
+    void onAssociarClicked();
+    void onRemoverAssociacaoClicked();
+    void onMoverSprintClicked();
+    void onAlterarEstadoClicked();
     void onTabelaSelecao();
     void onLimparClicked();
 
@@ -40,11 +44,18 @@ private:
     QLineEdit *estimativaInput_;
     QComboBox *prioridadeCombo_;
     QLineEdit *projetoInput_;
+    QLineEdit *desenvolvedorInput_;
+    QLineEdit *planoSprintInput_;
+    QComboBox *estadoCombo_;
     QTableWidget *tabelaHistorias_;
     QPushButton *btnAdicionar_;
     QPushButton *btnAtualizar_;
     QPushButton *btnRemover_;
     QPushButton *btnBuscar_;
+    QPushButton *btnAssociar_;
+    QPushButton *btnRemoverAssociacao_;
+    QPushButton *btnMoverSprint_;
+    QPushButton *btnAlterarEstado_;
     QPushButton *btnLimpar_;
     
     QString codigoSelecionado_;

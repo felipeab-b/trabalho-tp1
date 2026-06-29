@@ -2,6 +2,7 @@
 #define IPROJECT_SERVICE_HPP
 
 #include <vector>
+#include <string>
 #include "../entidades/project.hpp"
 #include "../dominios/derivados/code.hpp"
 #include "../dominios/derivados/name.hpp"
@@ -14,6 +15,8 @@
 /// serviço deve prover e dos quais a camada de apresentação depende.
 class IProjectService {
     public:
+        virtual void setCurrentUser(const std::string& email, const std::string& role) = 0;
+
         /// @brief Cria um novo projeto.
         ///
         /// Apenas Proprietário de Produto pode criar projeto, e deve

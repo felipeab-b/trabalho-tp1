@@ -2,6 +2,7 @@
 #define ISPRINTPLAN_SERVICE_HPP
 
 #include <vector>
+#include <string>
 #include "../entidades/sprintplan.hpp"
 #include "../dominios/derivados/code.hpp"
 #include "../dominios/derivados/text.hpp"
@@ -14,6 +15,8 @@
 /// depende.
 class ISprintPlanService {
     public:
+        virtual void setCurrentUser(const std::string& email, const std::string& role) = 0;
+
         /// @brief Cria um novo plano de sprint.
         ///
         /// Apenas Mestre Scrum pode criar plano de sprint, e deve

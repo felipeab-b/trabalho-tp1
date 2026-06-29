@@ -21,6 +21,7 @@ SOURCES += \
     gui/ProjetoWidget.cpp \
     gui/SprintWidget.cpp \
     gui/HistoriaWidget.cpp \
+    presentation/console_presentation.cpp \
     controllers/CtrlPersonService.cpp \
     controllers/CtrlAuthService.cpp \
     controllers/CtrlProjectService.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     gui/ProjetoWidget.hpp \
     gui/SprintWidget.hpp \
     gui/HistoriaWidget.hpp \
+    presentation/console_presentation.hpp \
     controllers/CtrlPersonService.hpp \
     controllers/CtrlAuthService.hpp \
     controllers/CtrlProjectService.hpp \
