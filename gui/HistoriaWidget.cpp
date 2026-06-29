@@ -136,7 +136,8 @@ void HistoriaWidget::aplicarPermissoes() {
     btnAssociar_->setEnabled(isScrumMaster);
     btnRemoverAssociacao_->setEnabled(isScrumMaster);
     btnMoverSprint_->setEnabled(isScrumMaster);
-    btnAlterarEstado_->setEnabled(isScrumMaster);
+
+    btnAlterarEstado_->setEnabled(isProductOwner || isScrumMaster);
 }
 
 void HistoriaWidget::onAdicionarClicked() {
