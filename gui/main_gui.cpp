@@ -1,24 +1,24 @@
 #include <QApplication>
-#include "gui/MainWindow.hpp"
-#include "gui/AuthWidget.hpp"
-#include "controllers/CtrlPersonService.hpp"
-#include "entidades/person.hpp"
-#include "dominios/derivados/email.hpp"
+#include "../gui/MainWindow.hpp"
+#include "../gui/AuthWidget.hpp"
+#include "../controllers/CtrlPersonService.hpp"
+#include "../entidades/person.hpp"
+#include "../dominios/derivados/email.hpp"
 #include <QMessageBox>
-#include "controllers/CtrlProjectService.hpp"
-#include "controllers/CtrlSprintPlanService.hpp"
-#include "controllers/CtrlUserStoryService.hpp"
-#include "controllers/CtrlAuthService.hpp"
+#include "../controllers/CtrlProjectService.hpp"
+#include "../controllers/CtrlSprintPlanService.hpp"
+#include "../controllers/CtrlUserStoryService.hpp"
+#include "../controllers/CtrlAuthService.hpp"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    
+
     CntrServicoPessoa servicoPessoa("scrum.db");
     CntrServicoProjeto servicoProjeto("scrum.db");
     CntrServicoPlanoSprint servicoPlanoSprint("scrum.db");
     CntrServicoHistoriaUsuario servicoHistoriaUsuario("scrum.db");
-    
-    CntrAuthService authService(&servicoPessoa); 
+
+    CntrAuthService authService(&servicoPessoa);
 
     servicoProjeto.setSprintPlanService(&servicoPlanoSprint);
     servicoProjeto.setUserStoryService(&servicoHistoriaUsuario);
@@ -45,6 +45,6 @@ int main(int argc, char *argv[]) {
     });
 
     authWidget.show();
-    
+
     return app.exec();
 }

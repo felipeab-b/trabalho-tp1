@@ -1,10 +1,10 @@
 #ifndef PROJECT_HPP
 #define PROJECT_HPP
 
-#include "dominios/derivados/code.hpp"
-#include "dominios/derivados/date.hpp"
-#include "dominios/derivados/name.hpp"
-#include "dominios/derivados/email.hpp"
+#include "../dominios/derivados/code.hpp"
+#include "../dominios/derivados/date.hpp"
+#include "../dominios/derivados/name.hpp"
+#include "../dominios/derivados/email.hpp"
 
 /// @brief Entidade que representa um projeto no sistema.
 ///

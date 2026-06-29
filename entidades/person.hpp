@@ -1,10 +1,10 @@
 #ifndef PERSON_HPP
 #define PERSON_HPP
 
-#include "dominios/derivados/email.hpp"
-#include "dominios/derivados/name.hpp"
-#include "dominios/derivados/role.hpp"
-#include "dominios/derivados/password.hpp"
+#include "../dominios/derivados/email.hpp"
+#include "../dominios/derivados/name.hpp"
+#include "../dominios/derivados/role.hpp"
+#include "../dominios/derivados/password.hpp"
 
 using namespace std;
 

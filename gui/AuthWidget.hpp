@@ -6,8 +6,8 @@
 #include <QTabWidget>
 #include "LoginWidget.hpp"
 #include "RegisterWidget.hpp"
-#include "interfaces/IAuthService.hpp"
-#include "controllers/CtrlPersonService.hpp"
+#include "../interfaces/IAuthService.hpp"
+#include "../controllers/CtrlPersonService.hpp"
 
 class AuthWidget : public QWidget {
     Q_OBJECT

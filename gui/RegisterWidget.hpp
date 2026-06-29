@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QComboBox>
 #include <QString>
-#include "controllers/CtrlPersonService.hpp"
+#include "../controllers/CtrlPersonService.hpp"
 
 class RegisterWidget : public QWidget {
     Q_OBJECT

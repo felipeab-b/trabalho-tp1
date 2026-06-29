@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QComboBox>
-#include "controllers/CtrlPersonService.hpp"
+#include "../controllers/CtrlPersonService.hpp"
 
 class PessoaWidget : public QWidget {
     Q_OBJECT
@@ -28,7 +28,7 @@ private:
     void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
 
     IPersonService& service_;
-    
+
     QLineEdit *emailInput_;
     QLineEdit *nomeInput_;
     QLineEdit *senhaInput_;
@@ -39,7 +39,7 @@ private:
     QPushButton *btnRemover_;
     QPushButton *btnBuscar_;
     QPushButton *btnLimpar_;
-    
+
     QString emailSelecionado_;
 };
 

@@ -1,0 +1,436 @@
+# depslib dependency file v1.0
+1782689650 source:/home/felipe/trabalho-tp1/main.cpp
+	"controllers/CtrlPersonService.hpp"
+	"controllers/CtrlProjectService.hpp"
+	"controllers/CtrlSprintPlanService.hpp"
+	"controllers/CtrlUserStoryService.hpp"
+	"presentation/console_presentation.hpp"
+	<iostream>
+
+1782691476 /home/felipe/trabalho-tp1/controllers/CtrlPersonService.hpp
+	"../interfaces/IPersonService.hpp"
+	"../database/sqlite_connection.hpp"
+	<vector>
+	<stdexcept>
+	<string>
+
+1782693211 /home/felipe/trabalho-tp1/interfaces/IPersonService.hpp
+	<vector>
+	<string>
+	"../entidades/person.hpp"
+	"../dominios/derivados/email.hpp"
+	"../dominios/derivados/name.hpp"
+	"../dominios/derivados/password.hpp"
+	"../dominios/derivados/role.hpp"
+
+1782700989 /home/felipe/trabalho-tp1/entidades/person.hpp
+	"../dominios/derivados/email.hpp"
+	"../dominios/derivados/name.hpp"
+	"../dominios/derivados/role.hpp"
+	"../dominios/derivados/password.hpp"
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/email.hpp
+	"../dominios.hpp"
+	<stdexcept>
+	<cctype>
+
+1782666864 /home/felipe/trabalho-tp1/dominios/dominios.hpp
+	<string>
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/name.hpp
+	"../dominios.hpp"
+	<stdexcept>
+	<cctype>
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/role.hpp
+	"../dominios.hpp"
+	<stdexcept>
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/password.hpp
+	"../dominios.hpp"
+	<stdexcept>
+
+1782689650 /home/felipe/trabalho-tp1/database/sqlite_connection.hpp
+	<sqlite3.h>
+	<stdexcept>
+	<string>
+	<vector>
+
+1782694635 /home/felipe/trabalho-tp1/controllers/CtrlProjectService.hpp
+	"../interfaces/IProjectService.hpp"
+	"../interfaces/ISprintPlanService.hpp"
+	"../interfaces/IUserStoryService.hpp"
+	"../database/sqlite_connection.hpp"
+	<vector>
+	<stdexcept>
+	<string>
+
+1782694601 /home/felipe/trabalho-tp1/interfaces/IProjectService.hpp
+	<vector>
+	<string>
+	"../entidades/project.hpp"
+	"../dominios/derivados/code.hpp"
+	"../dominios/derivados/name.hpp"
+	"../dominios/derivados/date.hpp"
+	"../dominios/derivados/email.hpp"
+
+1782700998 /home/felipe/trabalho-tp1/entidades/project.hpp
+	"../dominios/derivados/code.hpp"
+	"../dominios/derivados/date.hpp"
+	"../dominios/derivados/name.hpp"
+	"../dominios/derivados/email.hpp"
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/code.hpp
+	"../dominios.hpp"
+	<stdexcept>
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/date.hpp
+	"../dominios.hpp"
+	<stdexcept>
+
+1782693211 /home/felipe/trabalho-tp1/interfaces/ISprintPlanService.hpp
+	<vector>
+	<string>
+	"../entidades/sprintplan.hpp"
+	"../dominios/derivados/code.hpp"
+	"../dominios/derivados/text.hpp"
+	"../dominios/derivados/time.hpp"
+
+1782689650 /home/felipe/trabalho-tp1/entidades/sprintplan.hpp
+	"../dominios/derivados/code.hpp"
+	"../dominios/derivados/text.hpp"
+	"../dominios/derivados/time.hpp"
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/text.hpp
+	"../dominios.hpp"
+	<stdexcept>
+	<string>
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/time.hpp
+	"../dominios.hpp"
+	<stdexcept>
+
+1782693211 /home/felipe/trabalho-tp1/interfaces/IUserStoryService.hpp
+	<vector>
+	<string>
+	"../entidades/userstory.hpp"
+	"../dominios/derivados/code.hpp"
+	"../dominios/derivados/text.hpp"
+	"../dominios/derivados/time.hpp"
+	"../dominios/derivados/priority.hpp"
+	"../dominios/derivados/state.hpp"
+	"../dominios/derivados/email.hpp"
+
+1782701007 /home/felipe/trabalho-tp1/entidades/userstory.hpp
+	"../dominios/derivados/code.hpp"
+	"../dominios/derivados/text.hpp"
+	"../dominios/derivados/time.hpp"
+	"../dominios/derivados/priority.hpp"
+	"../dominios/derivados/state.hpp"
+	"../dominios/derivados/email.hpp"
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/priority.hpp
+	"../dominios.hpp"
+	<stdexcept>
+
+1782689650 /home/felipe/trabalho-tp1/dominios/derivados/state.hpp
+	"../dominios.hpp"
+	<stdexcept>
+
+1782691476 /home/felipe/trabalho-tp1/controllers/CtrlSprintPlanService.hpp
+	"../interfaces/ISprintPlanService.hpp"
+	"../interfaces/IProjectService.hpp"
+	"../database/sqlite_connection.hpp"
+	<vector>
+	<stdexcept>
+	<string>
+
+1782691476 /home/felipe/trabalho-tp1/controllers/CtrlUserStoryService.hpp
+	"../interfaces/IUserStoryService.hpp"
+	"../interfaces/ISprintPlanService.hpp"
+	"../database/sqlite_connection.hpp"
+	<vector>
+	<stdexcept>
+	<string>
+
+1782693211 /home/felipe/trabalho-tp1/presentation/console_presentation.hpp
+	"../interfaces/IPersonService.hpp"
+	"../interfaces/IProjectService.hpp"
+	"../interfaces/ISprintPlanService.hpp"
+	"../interfaces/IUserStoryService.hpp"
+
+1782701960 source:/home/felipe/trabalho-tp1/Scrum/main.cpp
+	<iostream>
+
+1782689650 source:/home/felipe/trabalho-tp1/controllers/CtrlPersonService.cpp
+	"CtrlPersonService.hpp"
+
+1782694650 source:/home/felipe/trabalho-tp1/controllers/CtrlProjectService.cpp
+	"CtrlProjectService.hpp"
+
+1782691476 source:/home/felipe/trabalho-tp1/controllers/CtrlSprintPlanService.cpp
+	"CtrlSprintPlanService.hpp"
+	<ctime>
+	<cmath>
+	<iostream>
+
+1782691476 source:/home/felipe/trabalho-tp1/controllers/CtrlUserStoryService.cpp
+	"CtrlUserStoryService.hpp"
+	<iostream>
+
+1782689650 source:/home/felipe/trabalho-tp1/database/sqlite_connection.cpp
+	"sqlite_connection.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/code.cpp
+	"code.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/date.cpp
+	"date.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/email.cpp
+	"email.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/name.cpp
+	"name.hpp"
+
+1782689650 source:/home/felipe/trabalho-tp1/dominios/derivados/password.cpp
+	"password.hpp"
+	<cctype>
+	<stdexcept>
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/priority.cpp
+	"priority.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/role.cpp
+	"role.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/state.cpp
+	"state.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/text.cpp
+	"text.hpp"
+	<cctype>
+	<stdexcept>
+	<string>
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/derivados/time.cpp
+	"time.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/dominios/dominios.cpp
+	"dominios.hpp"
+
+1782666864 source:/home/felipe/trabalho-tp1/entidades/person.cpp
+	"person.hpp"
+
+1782694555 source:/home/felipe/trabalho-tp1/entidades/project.cpp
+	"project.hpp"
+
+1782689650 source:/home/felipe/trabalho-tp1/entidades/sprintplan.cpp
+	"sprintplan.hpp"
+
+1782689650 source:/home/felipe/trabalho-tp1/entidades/userstory.cpp
+	"userstory.hpp"
+
+1782689650 source:/home/felipe/trabalho-tp1/controllers/CtrlAuthService.cpp
+	"CtrlAuthService.hpp"
+	<stdexcept>
+
+1782702214 /home/felipe/trabalho-tp1/controllers/CtrlAuthService.hpp
+	"IAuthService.hpp"
+	"IPersonService.hpp"
+
+1782689650 /home/felipe/trabalho-tp1/interfaces/IAuthService.hpp
+	"../dominios/derivados/email.hpp"
+	"../dominios/derivados/password.hpp"
+
+1782689650 source:/home/felipe/trabalho-tp1/gui/AuthWidget.cpp
+	"AuthWidget.hpp"
+
+1782701468 /home/felipe/trabalho-tp1/gui/AuthWidget.hpp
+	<QWidget>
+	<QVBoxLayout>
+	<QTabWidget>
+	"LoginWidget.hpp"
+	"RegisterWidget.hpp"
+	"../interfaces/IAuthService.hpp"
+	"../controllers/CtrlPersonService.hpp"
+
+1782701420 /home/felipe/trabalho-tp1/gui/LoginWidget.hpp
+	<QWidget>
+	<QLineEdit>
+	<QPushButton>
+	<QVBoxLayout>
+	<QMessageBox>
+	<QString>
+	"../interfaces/IAuthService.hpp"
+
+1782701425 /home/felipe/trabalho-tp1/gui/RegisterWidget.hpp
+	<QWidget>
+	<QLineEdit>
+	<QPushButton>
+	<QVBoxLayout>
+	<QMessageBox>
+	<QComboBox>
+	<QString>
+	"../controllers/CtrlPersonService.hpp"
+
+1782696071 source:/home/felipe/trabalho-tp1/gui/HistoriaWidget.cpp
+	"HistoriaWidget.hpp"
+	<QVBoxLayout>
+	<QHBoxLayout>
+	<QLabel>
+	<QMessageBox>
+	<QHeaderView>
+
+1782701462 /home/felipe/trabalho-tp1/gui/HistoriaWidget.hpp
+	<QWidget>
+	<QLineEdit>
+	<QPushButton>
+	<QTableWidget>
+	<QComboBox>
+	<vector>
+	"../controllers/CtrlUserStoryService.hpp"
+
+1782689650 source:/home/felipe/trabalho-tp1/gui/LoginWidget.cpp
+	"LoginWidget.hpp"
+	"../dominios/derivados/email.hpp"
+	"../dominios/derivados/password.hpp"
+
+1782701456 source:/home/felipe/trabalho-tp1/gui/main_gui.cpp
+	<QApplication>
+	"../gui/MainWindow.hpp"
+	"../gui/AuthWidget.hpp"
+	"../controllers/CtrlPersonService.hpp"
+	"../entidades/person.hpp"
+	"../dominios/derivados/email.hpp"
+	<QMessageBox>
+	"../controllers/CtrlProjectService.hpp"
+	"../controllers/CtrlSprintPlanService.hpp"
+	"../controllers/CtrlUserStoryService.hpp"
+	"../controllers/CtrlAuthService.hpp"
+
+1782701435 /home/felipe/trabalho-tp1/gui/MainWindow.hpp
+	<QMainWindow>
+	<QTabWidget>
+	"../controllers/CtrlPersonService.hpp"
+	"../controllers/CtrlProjectService.hpp"
+	"../controllers/CtrlSprintPlanService.hpp"
+	"../controllers/CtrlUserStoryService.hpp"
+
+1782691476 source:/home/felipe/trabalho-tp1/gui/MainWindow.cpp
+	"MainWindow.hpp"
+	"PessoaWidget.hpp"
+	"ProjetoWidget.hpp"
+	"SprintWidget.hpp"
+	"HistoriaWidget.hpp"
+	<QVBoxLayout>
+	<QStatusBar>
+
+1782701473 /home/felipe/trabalho-tp1/gui/PessoaWidget.hpp
+	<QWidget>
+	<QLineEdit>
+	<QPushButton>
+	<QTableWidget>
+	<QComboBox>
+	"../controllers/CtrlPersonService.hpp"
+
+1782701479 /home/felipe/trabalho-tp1/gui/ProjetoWidget.hpp
+	<QWidget>
+	<QLineEdit>
+	<QPushButton>
+	<QTableWidget>
+	"../controllers/CtrlProjectService.hpp"
+
+1782701484 /home/felipe/trabalho-tp1/gui/SprintWidget.hpp
+	<QWidget>
+	<QLineEdit>
+	<QPushButton>
+	<QTableWidget>
+	"../controllers/CtrlSprintPlanService.hpp"
+
+1782689650 source:/home/felipe/trabalho-tp1/gui/PessoaWidget.cpp
+	"PessoaWidget.hpp"
+	<QVBoxLayout>
+	<QHBoxLayout>
+	<QLabel>
+	<QMessageBox>
+	<QHeaderView>
+	<QDebug>
+
+1782694666 source:/home/felipe/trabalho-tp1/gui/ProjetoWidget.cpp
+	"ProjetoWidget.hpp"
+	<QVBoxLayout>
+	<QHBoxLayout>
+	<QLabel>
+	<QMessageBox>
+	<QHeaderView>
+
+1782689650 source:/home/felipe/trabalho-tp1/gui/RegisterWidget.cpp
+	"RegisterWidget.hpp"
+	"../dominios/derivados/email.hpp"
+	"../dominios/derivados/name.hpp"
+	"../dominios/derivados/password.hpp"
+	"../dominios/derivados/role.hpp"
+
+1782694700 source:/home/felipe/trabalho-tp1/gui/SprintWidget.cpp
+	"SprintWidget.hpp"
+	<QVBoxLayout>
+	<QHBoxLayout>
+	<QLabel>
+	<QMessageBox>
+	<QHeaderView>
+
+1782702032 source:/home/felipe/trabalho-tp1/moc_AuthWidget.cpp
+	<memory>
+	"gui/AuthWidget.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782702039 source:/home/felipe/trabalho-tp1/moc_HistoriaWidget.cpp
+	<memory>
+	"gui/HistoriaWidget.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782702033 source:/home/felipe/trabalho-tp1/moc_LoginWidget.cpp
+	<memory>
+	"gui/LoginWidget.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782702031 source:/home/felipe/trabalho-tp1/moc_MainWindow.cpp
+	<memory>
+	"gui/MainWindow.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782702035 source:/home/felipe/trabalho-tp1/moc_PessoaWidget.cpp
+	<memory>
+	"gui/PessoaWidget.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782702037 source:/home/felipe/trabalho-tp1/moc_ProjetoWidget.cpp
+	<memory>
+	"gui/ProjetoWidget.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782702034 source:/home/felipe/trabalho-tp1/moc_RegisterWidget.cpp
+	<memory>
+	"gui/RegisterWidget.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782702038 source:/home/felipe/trabalho-tp1/moc_SprintWidget.cpp
+	<memory>
+	"gui/SprintWidget.hpp"
+	<QtCore/qbytearray.h>
+	<QtCore/qmetatype.h>
+
+1782694777 source:/home/felipe/trabalho-tp1/presentation/console_presentation.cpp
+	"console_presentation.hpp"
+	<iostream>
+	<limits>
+	<stdexcept>
+

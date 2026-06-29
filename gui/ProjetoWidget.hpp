@@ -5,7 +5,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTableWidget>
-#include "controllers/CtrlProjectService.hpp"
+#include "../controllers/CtrlProjectService.hpp"
 
 class ProjetoWidget : public QWidget {
     Q_OBJECT
@@ -33,7 +33,7 @@ private:
     IProjectService& service_;
     QString currentUserEmail_;
     QString currentUserRole_;
-    
+
     QLineEdit *codigoInput_;
     QLineEdit *nomeInput_;
     QLineEdit *dataInicioInput_;
@@ -45,7 +45,7 @@ private:
     QPushButton *btnRemover_;
     QPushButton *btnBuscar_;
     QPushButton *btnLimpar_;
-    
+
     QString codigoSelecionado_;
 };
 

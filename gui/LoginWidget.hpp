@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QString>
-#include "interfaces/IAuthService.hpp"
+#include "../interfaces/IAuthService.hpp"
 
 class LoginWidget : public QWidget {
     Q_OBJECT

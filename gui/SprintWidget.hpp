@@ -5,7 +5,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTableWidget>
-#include "controllers/CtrlSprintPlanService.hpp"
+#include "../controllers/CtrlSprintPlanService.hpp"
 
 class SprintWidget : public QWidget {
     Q_OBJECT

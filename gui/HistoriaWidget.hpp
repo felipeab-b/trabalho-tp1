@@ -7,7 +7,7 @@
 #include <QTableWidget>
 #include <QComboBox>
 #include <vector>
-#include "controllers/CtrlUserStoryService.hpp"
+#include "../controllers/CtrlUserStoryService.hpp"
 
 class HistoriaWidget : public QWidget {
     Q_OBJECT
@@ -38,7 +38,7 @@ private:
     IUserStoryService& service_;
     QString currentProjectCode_;
     QString currentUserRole_;
-    
+
     QLineEdit *codigoInput_;
     QLineEdit *tituloInput_;
     QLineEdit *papelInput_;
@@ -60,7 +60,7 @@ private:
     QPushButton *btnMoverSprint_;
     QPushButton *btnAlterarEstado_;
     QPushButton *btnLimpar_;
-    
+
     QString codigoSelecionado_;
 };
 
