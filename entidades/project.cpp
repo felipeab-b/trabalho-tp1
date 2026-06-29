@@ -32,6 +32,14 @@ Date Project::getEnding() const {
     return ending;
 };
 
+void Project::setProductOwner(Email productOwner) {
+    this->productOwner = productOwner;
+}
+
+Email Project::getProductOwner() const {
+    return this->productOwner;
+}
+
 void Project::setScrumMaster(Email scrumMaster) {
     this->scrumMaster = scrumMaster;
 }

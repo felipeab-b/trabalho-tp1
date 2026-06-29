@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QComboBox>
+#include <vector>
 #include "controllers/CtrlUserStoryService.hpp"
 
 class HistoriaWidget : public QWidget {
@@ -31,6 +32,8 @@ private:
     void setupUI();
     void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
     void aplicarPermissoes();
+    void carregarHistorias();
+    void exibirListaHistorias(const std::vector<Code>& codigos);
 
     IUserStoryService& service_;
     QString currentProjectCode_;

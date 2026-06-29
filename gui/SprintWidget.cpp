@@ -15,6 +15,7 @@ void SprintWidget::setProjectCode(const QString& code) {
     if (!code.isEmpty()) {
         projetoInput_->setText(code);
     }
+    carregarPlanosDoProjeto();
 }
 
 void SprintWidget::setupUI() {
@@ -163,7 +164,10 @@ void SprintWidget::onRemoverClicked() {
 void SprintWidget::onBuscarClicked() {
     try {
         if (codigoInput_->text().isEmpty()) {
-            exibirMensagem("Erro", "Digite um código para buscar.", false);
+            // Sem código informado: lista todos os planos de sprint do
+            // projeto atual (Serviço 21 - LISTAR PLANOS DE SPRINT
+            // ASSOCIADOS A PROJETO).
+            carregarPlanosDoProjeto();
             return;
         }
         
@@ -181,6 +185,35 @@ void SprintWidget::onBuscarClicked() {
         tabelaSprints_->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(plano.getCapacity().get())));
     } catch (const std::exception& ex) {
         exibirMensagem("Erro", QString::fromStdString(ex.what()), false);
+    }
+}
+
+void SprintWidget::carregarPlanosDoProjeto() {
+    tabelaSprints_->setRowCount(0);
+
+    QString projetoCode = projetoInput_->text();
+    if (projetoCode.isEmpty()) {
+        projetoCode = currentProjectCode_;
+    }
+    if (projetoCode.isEmpty()) {
+        return;
+    }
+
+    try {
+        Code projeto;
+        projeto.set(projetoCode.toStdString());
+
+        auto planos = service_.listarPlanosDeSprintDeProjeto(projeto);
+        for (const auto& codigo : planos) {
+            SprintPlan plano = service_.lerPlanoDeSprint(codigo);
+            int row = tabelaSprints_->rowCount();
+            tabelaSprints_->insertRow(row);
+            tabelaSprints_->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(plano.getCode().get())));
+            tabelaSprints_->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(plano.getObjective().get())));
+            tabelaSprints_->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(plano.getCapacity().get())));
+        }
+    } catch (const std::exception&) {
+        // Ignora se o projeto informado não existir ou não tiver planos.
     }
 }
 
@@ -202,8 +235,8 @@ void SprintWidget::onLimparClicked() {
     if (!currentProjectCode_.isEmpty()) {
         projetoInput_->setText(currentProjectCode_);
     }
-    tabelaSprints_->setRowCount(0);
     codigoSelecionado_ = "";
+    carregarPlanosDoProjeto();
 }
 
 void SprintWidget::exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso) {

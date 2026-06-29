@@ -145,9 +145,10 @@ void ConsolePresentation::cadastrarProjeto() {
     Name nome = lerNome("Nome do projeto: ");
     Date inicio = lerData("Data de inicio (DD/MM/YYYY): ");
     Date fim = lerData("Data de termino (DD/MM/YYYY): ");
+    Email proprietario = lerEmail("Email do Proprietario de Produto: ");
     Email scrum = lerEmail("Email do Scrum Master: ");
 
-    serviceProjeto_.criarProjeto(codigo, nome, inicio, fim, scrum);
+    serviceProjeto_.criarProjeto(codigo, nome, inicio, fim, proprietario, scrum);
     std::cout << "Projeto cadastrado com sucesso." << std::endl;
 }
 

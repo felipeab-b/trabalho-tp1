@@ -11,14 +11,16 @@
 /// Um projeto é identificado unicamente por seu código,
 /// definido na criação e não editável posteriormente.
 /// Um projeto possui nome, data de início e data de fim,
-/// que determinam o período de execução do projeto.
+/// que determinam o período de execução do projeto, além de estar
+/// associado a um Proprietário de Produto e a um Mestre Scrum.
 class Project {
     private:
-        Code code;         ///< Identificador único do projeto (chave primária).
-        Name name;         ///< Nome do projeto.
-        Date beginning;    ///< Data de início do projeto.
-        Date ending;       ///< Data de término do projeto.
-        Email scrumMaster; ///< Email do Mestre Scrum responsável pelo projeto.
+        Code code;          ///< Identificador único do projeto (chave primária).
+        Name name;          ///< Nome do projeto.
+        Date beginning;     ///< Data de início do projeto.
+        Date ending;        ///< Data de término do projeto.
+        Email productOwner; ///< Email do Proprietário de Produto responsável pelo projeto.
+        Email scrumMaster;  ///< Email do Mestre Scrum responsável pelo projeto.
 
     public:
         /// @brief Constrói um projeto com o código fornecido.
@@ -52,6 +54,14 @@ class Project {
         /// @brief Retorna a data de término do projeto.
         /// @return Objeto Date com a data de término.
         Date getEnding() const;
+
+        /// @brief Define o Proprietário de Produto associado ao projeto.
+        /// @param productOwner Objeto Email identificando o Proprietário de Produto.
+        void setProductOwner(Email);
+
+        /// @brief Retorna o Proprietário de Produto do projeto.
+        /// @return Objeto Email com o identificador do Proprietário de Produto.
+        Email getProductOwner() const;
 
         /// @brief Define o Mestre Scrum associado ao projeto.
         /// @param scrumMaster Objeto Email identificando o Mestre Scrum.

@@ -26,11 +26,12 @@ private:
     void setupUI();
     void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
     void aplicarPermissoes();
+    void carregarPlanosDoProjeto();
 
     ISprintPlanService& service_;
     QString currentProjectCode_;
     QString currentUserRole_;
-    
+
     QLineEdit *codigoInput_;
     QLineEdit *objetivoInput_;
     QLineEdit *capacidadeInput_;
@@ -41,7 +42,7 @@ private:
     QPushButton *btnRemover_;
     QPushButton *btnBuscar_;
     QPushButton *btnLimpar_;
-    
+
     QString codigoSelecionado_;
 };
 

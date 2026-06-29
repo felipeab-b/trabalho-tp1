@@ -84,6 +84,11 @@ void ProjetoWidget::onAdicionarClicked() {
             exibirMensagem("Erro", "Preencha todos os campos obrigatórios.", false);
             return;
         }
+
+        if (currentUserEmail_.isEmpty()) {
+            exibirMensagem("Erro", "Usuário não autenticado. Faça login para criar um projeto.", false);
+            return;
+        }
         
         Code codigo;
         codigo.set(codigoInput_->text().toStdString());
@@ -109,8 +114,13 @@ void ProjetoWidget::onAdicionarClicked() {
 
         Email scrum;
         scrum.set(scrumEmail.toStdString());
+
+        // O usuário logado, que precisa ter papel de Proprietário de Produto
+        // (ver aplicarPermissoes), torna-se o Proprietário de Produto do projeto.
+        Email proprietario;
+        proprietario.set(currentUserEmail_.toStdString());
         
-        service_.criarProjeto(codigo, nome, dataInicio, dataFim, scrum);
+        service_.criarProjeto(codigo, nome, dataInicio, dataFim, proprietario, scrum);
         exibirMensagem("Sucesso", "Projeto associado ao usuário logado com sucesso.");
         emit projetoSelecionado(QString::fromStdString(codigo.get()));
         onLimparClicked();

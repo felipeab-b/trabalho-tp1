@@ -15,6 +15,7 @@ void HistoriaWidget::setProjectCode(const QString& code) {
     if (!code.isEmpty()) {
         projetoInput_->setText(code);
     }
+    carregarHistorias();
 }
 
 void HistoriaWidget::setupUI() {
@@ -247,7 +248,10 @@ void HistoriaWidget::onRemoverClicked() {
 void HistoriaWidget::onBuscarClicked() {
     try {
         if (codigoInput_->text().isEmpty()) {
-            exibirMensagem("Erro", "Digite um código para buscar.", false);
+            // Sem código informado: lista as histórias de usuário de acordo
+            // com o filtro preenchido (desenvolvedor, plano de sprint ou
+            // projeto), cobrindo os Serviços 22, 23 e 20.
+            carregarHistorias();
             return;
         }
         
@@ -266,6 +270,57 @@ void HistoriaWidget::onBuscarClicked() {
         tabelaHistorias_->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(historia.getEstimation().get())));
     } catch (const std::exception& ex) {
         exibirMensagem("Erro", QString::fromStdString(ex.what()), false);
+    }
+}
+
+void HistoriaWidget::carregarHistorias() {
+    tabelaHistorias_->setRowCount(0);
+
+    try {
+        // Prioridade do filtro: desenvolvedor > plano de sprint > projeto.
+        // O usuário preenche apenas o campo correspondente ao que deseja buscar.
+        if (!desenvolvedorInput_->text().isEmpty()) {
+            Email pessoa;
+            pessoa.set(desenvolvedorInput_->text().toStdString());
+            exibirListaHistorias(service_.listarHistoriasDeUsuarioDePessoa(pessoa));
+            return;
+        }
+
+        if (!planoSprintInput_->text().isEmpty()) {
+            Code plano;
+            plano.set(planoSprintInput_->text().toStdString());
+            exibirListaHistorias(service_.listarHistoriasDeUsuarioDePlanoDeSprint(plano));
+            return;
+        }
+
+        QString projetoCode = projetoInput_->text();
+        if (projetoCode.isEmpty()) {
+            projetoCode = currentProjectCode_;
+        }
+        if (!projetoCode.isEmpty()) {
+            Code projeto;
+            projeto.set(projetoCode.toStdString());
+            exibirListaHistorias(service_.listarHistoriasDeUsuarioDeProjeto(projeto));
+        }
+    } catch (const std::exception&) {
+        // Ignora se o identificador informado não existir ou não tiver histórias.
+    }
+}
+
+void HistoriaWidget::exibirListaHistorias(const std::vector<Code>& codigos) {
+    tabelaHistorias_->setRowCount(0);
+    for (const auto& codigo : codigos) {
+        try {
+            UserStory historia = service_.lerHistoriaDeUsuario(codigo);
+            int row = tabelaHistorias_->rowCount();
+            tabelaHistorias_->insertRow(row);
+            tabelaHistorias_->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(historia.getCode().get())));
+            tabelaHistorias_->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(historia.getTitle().get())));
+            tabelaHistorias_->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(historia.getPriority().get())));
+            tabelaHistorias_->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(historia.getEstimation().get())));
+        } catch (const std::exception&) {
+            // Ignora história que não puder ser lida.
+        }
     }
 }
 
@@ -378,8 +433,8 @@ void HistoriaWidget::onLimparClicked() {
     }
     prioridadeCombo_->setCurrentIndex(0);
     estadoCombo_->setCurrentIndex(0);
-    tabelaHistorias_->setRowCount(0);
     codigoSelecionado_ = "";
+    carregarHistorias();
 }
 
 void HistoriaWidget::exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso) {

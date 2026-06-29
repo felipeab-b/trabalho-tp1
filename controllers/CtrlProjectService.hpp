@@ -42,7 +42,7 @@ public:
         this->servicoHistoriaUsuario = servico;
     }
 
-    void criarProjeto(Code code, Name name, Date beginning, Date ending, Email scrumMaster) override;
+    void criarProjeto(Code code, Name name, Date beginning, Date ending, Email productOwner, Email scrumMaster) override;
     Project lerProjeto(Code code) const override;
     void atualizarProjeto(Code code, Name name, Date beginning, Date ending) override;
     void excluirProjeto(Code code) override;

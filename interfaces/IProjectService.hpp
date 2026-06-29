@@ -20,17 +20,18 @@ class IProjectService {
         /// @brief Cria um novo projeto.
         ///
         /// Apenas Proprietário de Produto pode criar projeto, e deve
-        /// associá-lo a um Mestre Scrum.
+        /// associá-lo a si mesmo como Proprietário de Produto e a um Mestre Scrum.
         /// @param code Código do projeto, identificador único (chave primária).
         /// @param name Nome do projeto.
         /// @param beginning Data de início do projeto.
         /// @param ending Data de término do projeto.
+        /// @param productOwner Email da pessoa que assumirá o papel de Proprietário de Produto do projeto.
         /// @param scrumMaster Email da pessoa que assumirá o papel de Mestre Scrum do projeto.
         /// @throws std::invalid_argument se já existir projeto com o mesmo código,
         ///         se a pessoa informada não tiver papel de Mestre Scrum,
         ///         se a data de término for anterior à data de início,
         ///         ou se algum parâmetro tiver formato inválido.
-        virtual void criarProjeto(Code code, Name name, Date beginning, Date ending, Email scrumMaster) = 0;
+        virtual void criarProjeto(Code code, Name name, Date beginning, Date ending, Email productOwner, Email scrumMaster) = 0;
 
         /// @brief Obtém os dados de um projeto cadastrado.
         /// @param code Código identificador do projeto.
