@@ -40,6 +40,7 @@ private:
     HistoriaWidget *historiaWidget_;
     
     QString currentUserEmail_;
+    QString currentUserRole_;
     QString currentProjectCode_;
 
     void createTabs();

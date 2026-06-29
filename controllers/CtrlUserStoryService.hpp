@@ -12,11 +12,14 @@ class CntrServicoHistoriaUsuario : public IUserStoryService {
 private:
     std::vector<UserStory> containerHistorias;
     SQLiteConnection database_;
+    std::string currentUserEmail_;
+    std::string currentUserRole_;
 
     ISprintPlanService* servicoPlanoSprint = nullptr;
 
     void inicializarBanco();
     void carregarHistorias();
+    void validarPermissao(const std::string& operacao) const;
     void inserirHistoriaNoBanco(const UserStory& historia);
     void atualizarHistoriaNoBanco(const UserStory& historia);
     void removerHistoriaNoBanco(const std::string& code);
@@ -26,6 +29,11 @@ private:
 
 public:
     explicit CntrServicoHistoriaUsuario(const std::string& dbPath = "scrum.db");
+
+    void setCurrentUser(const std::string& email, const std::string& role) {
+        currentUserEmail_ = email;
+        currentUserRole_ = role;
+    }
 
     void setSprintPlanService(ISprintPlanService* servico) {
         this->servicoPlanoSprint = servico;

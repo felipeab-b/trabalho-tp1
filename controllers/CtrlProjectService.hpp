@@ -13,12 +13,15 @@ class CntrServicoProjeto : public IProjectService {
 private:
     std::vector<Project> containerProjetos;
     SQLiteConnection database_;
+    std::string currentUserEmail_;
+    std::string currentUserRole_;
 
     ISprintPlanService* servicoPlanoSprint = nullptr;
     IUserStoryService* servicoHistoriaUsuario = nullptr;
 
     void inicializarBanco();
     void carregarProjetos();
+    void validarPermissao(const std::string& operacao) const;
     void inserirProjetoNoBanco(const Project& projeto);
     void atualizarProjetoNoBanco(const Project& projeto);
     void removerProjetoNoBanco(const std::string& code);
@@ -26,6 +29,11 @@ private:
 
 public:
     explicit CntrServicoProjeto(const std::string& dbPath = "scrum.db");
+
+    void setCurrentUser(const std::string& email, const std::string& role) {
+        currentUserEmail_ = email;
+        currentUserRole_ = role;
+    }
 
     void setSprintPlanService(ISprintPlanService* servico) {
         this->servicoPlanoSprint = servico;

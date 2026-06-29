@@ -73,7 +73,28 @@ std::string CntrServicoProjeto::escaparTexto(const std::string& valor) const {
     return resultado;
 }
 
+void CntrServicoProjeto::validarPermissao(const std::string& operacao) const {
+    if (currentUserRole_.empty()) {
+        return;
+    }
+
+    if (operacao == "CRIAR PROJETO" || operacao == "ATUALIZAR PROJETO" || operacao == "EXCLUIR PROJETO") {
+        if (currentUserRole_ != "PROPRIETARIO DE PRODUTO") {
+            throw std::invalid_argument("Acesso Negado: Apenas Proprietario de Produto pode executar esta operacao.");
+        }
+        return;
+    }
+
+    if (operacao == "LER PROJETO" || operacao == "LISTAR PROJETOS ASSOCIADOS A PESSOA") {
+        if (currentUserRole_ != "PROPRIETARIO DE PRODUTO" && currentUserRole_ != "MESTRE SCRUM" && currentUserRole_ != "DESENVOLVEDOR") {
+            throw std::invalid_argument("Acesso Negado: Seu papel nao tem permissao para executar esta operacao.");
+        }
+    }
+}
+
 void CntrServicoProjeto::criarProjeto(Code code, Name name, Date beginning, Date ending, Email scrumMaster) {
+    validarPermissao("CRIAR PROJETO");
+
     for (const auto& projeto : containerProjetos) {
         if (projeto.getCode().get() == code.get()) {
             throw std::invalid_argument("Erro: Ja existe um projeto cadastrado com este codigo.");
@@ -91,6 +112,8 @@ void CntrServicoProjeto::criarProjeto(Code code, Name name, Date beginning, Date
 }
 
 Project CntrServicoProjeto::lerProjeto(Code code) const {
+    validarPermissao("LER PROJETO");
+
     for (const auto& projeto : containerProjetos) {
         if (projeto.getCode().get() == code.get()) {
             return projeto;
@@ -100,6 +123,8 @@ Project CntrServicoProjeto::lerProjeto(Code code) const {
 }
 
 void CntrServicoProjeto::atualizarProjeto(Code code, Name name, Date beginning, Date ending) {
+    validarPermissao("ATUALIZAR PROJETO");
+
     for (auto& projeto : containerProjetos) {
         if (projeto.getCode().get() == code.get()) {
             projeto.setName(name);
@@ -113,6 +138,8 @@ void CntrServicoProjeto::atualizarProjeto(Code code, Name name, Date beginning, 
 }
 
 void CntrServicoProjeto::excluirProjeto(Code code) {
+    validarPermissao("EXCLUIR PROJETO");
+
     if (servicoPlanoSprint != nullptr) {
         auto planos = servicoPlanoSprint->listarPlanosDeSprintDeProjeto(code);
         if (!planos.empty()) {
@@ -138,6 +165,8 @@ void CntrServicoProjeto::excluirProjeto(Code code) {
 }
 
 std::vector<Code> CntrServicoProjeto::listarProjetosDePessoa(Email person) const {
+    validarPermissao("LISTAR PROJETOS ASSOCIADOS A PESSOA");
+
     std::vector<Code> projetosDaPessoa;
     for (const auto& projeto : containerProjetos) {
         if (projeto.getScrumMaster().get() == person.get()) {

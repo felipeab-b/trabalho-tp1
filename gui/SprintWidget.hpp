@@ -11,7 +11,7 @@ class SprintWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit SprintWidget(ISprintPlanService& service, QWidget *parent = nullptr);
+    explicit SprintWidget(ISprintPlanService& service, const QString& currentUserRole = QString(), QWidget *parent = nullptr);
     void setProjectCode(const QString& code);
 
 private slots:
@@ -25,9 +25,11 @@ private slots:
 private:
     void setupUI();
     void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
+    void aplicarPermissoes();
 
     ISprintPlanService& service_;
     QString currentProjectCode_;
+    QString currentUserRole_;
     
     QLineEdit *codigoInput_;
     QLineEdit *objetivoInput_;

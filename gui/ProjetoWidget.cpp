@@ -5,8 +5,8 @@
 #include <QMessageBox>
 #include <QHeaderView>
 
-ProjetoWidget::ProjetoWidget(IProjectService& service, const QString& currentUserEmail, QWidget *parent)
-    : QWidget(parent), service_(service), currentUserEmail_(currentUserEmail), codigoSelecionado_("") {
+ProjetoWidget::ProjetoWidget(IProjectService& service, const QString& currentUserEmail, const QString& currentUserRole, QWidget *parent)
+    : QWidget(parent), service_(service), currentUserEmail_(currentUserEmail), currentUserRole_(currentUserRole), codigoSelecionado_("") {
     setupUI();
 }
 
@@ -72,6 +72,7 @@ void ProjetoWidget::setupUI() {
         scrumInput_->setText(currentUserEmail_);
     }
 
+    aplicarPermissoes();
     carregarProjetosDoUsuario();
     setLayout(mainLayout);
 }
@@ -212,6 +213,13 @@ void ProjetoWidget::onLimparClicked() {
     tabelaProjetos_->setRowCount(0);
     codigoSelecionado_ = "";
     carregarProjetosDoUsuario();
+}
+
+void ProjetoWidget::aplicarPermissoes() {
+    const bool isProductOwner = currentUserRole_.toStdString() == "PROPRIETARIO DE PRODUTO";
+    btnAdicionar_->setEnabled(isProductOwner);
+    btnAtualizar_->setEnabled(isProductOwner);
+    btnRemover_->setEnabled(isProductOwner);
 }
 
 void ProjetoWidget::carregarProjetosDoUsuario() {

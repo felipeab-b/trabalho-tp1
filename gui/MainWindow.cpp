@@ -14,7 +14,35 @@ MainWindow::MainWindow(CntrServicoPessoa* p, CntrServicoProjeto* proj,
       serviceProjeto_(proj),
       servicePlano_(sprint),
       serviceHistoria_(hist),
-      currentUserEmail_(currentUserEmail) {
+      currentUserEmail_(currentUserEmail),
+      currentUserRole_() {
+
+    QString currentUserRole;
+    if (!currentUserEmail_.isEmpty() && servicePessoa_ != nullptr) {
+        try {
+            Email email;
+            email.set(currentUserEmail_.toStdString());
+            Person pessoa = servicePessoa_->lerPessoa(email);
+            currentUserRole = QString::fromStdString(pessoa.getRole().get());
+        } catch (const std::exception&) {
+            currentUserRole.clear();
+        }
+    }
+
+    currentUserRole_ = currentUserRole;
+
+    if (servicePessoa_ != nullptr) {
+        servicePessoa_->setCurrentUser(currentUserEmail_.toStdString(), currentUserRole_.toStdString());
+    }
+    if (serviceProjeto_ != nullptr) {
+        serviceProjeto_->setCurrentUser(currentUserEmail_.toStdString(), currentUserRole_.toStdString());
+    }
+    if (servicePlano_ != nullptr) {
+        servicePlano_->setCurrentUser(currentUserEmail_.toStdString(), currentUserRole_.toStdString());
+    }
+    if (serviceHistoria_ != nullptr) {
+        serviceHistoria_->setCurrentUser(currentUserEmail_.toStdString(), currentUserRole_.toStdString());
+    }
     
     createTabs();
     setupUI();
@@ -32,9 +60,9 @@ void MainWindow::createTabs() {
     
     // Passando os serviços injetados para cada widget
     pessoaWidget_ = new PessoaWidget(*servicePessoa_, this);
-    projetoWidget_ = new ProjetoWidget(*serviceProjeto_, currentUserEmail_, this);
-    sprintWidget_ = new SprintWidget(*servicePlano_, this);
-    historiaWidget_ = new HistoriaWidget(*serviceHistoria_, this);
+    projetoWidget_ = new ProjetoWidget(*serviceProjeto_, currentUserEmail_, currentUserRole_, this);
+    sprintWidget_ = new SprintWidget(*servicePlano_, currentUserRole_, this);
+    historiaWidget_ = new HistoriaWidget(*serviceHistoria_, currentUserRole_, this);
 
     connect(projetoWidget_, &ProjetoWidget::projetoSelecionado, this, &MainWindow::onProjetoSelecionado);
     

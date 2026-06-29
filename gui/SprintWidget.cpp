@@ -5,8 +5,8 @@
 #include <QMessageBox>
 #include <QHeaderView>
 
-SprintWidget::SprintWidget(ISprintPlanService& service, QWidget *parent)
-    : QWidget(parent), service_(service), currentProjectCode_(""), codigoSelecionado_("") {
+SprintWidget::SprintWidget(ISprintPlanService& service, const QString& currentUserRole, QWidget *parent)
+    : QWidget(parent), service_(service), currentProjectCode_(""), currentUserRole_(currentUserRole), codigoSelecionado_("") {
     setupUI();
 }
 
@@ -69,7 +69,15 @@ void SprintWidget::setupUI() {
     connect(btnLimpar_, &QPushButton::clicked, this, &SprintWidget::onLimparClicked);
     connect(tabelaSprints_, &QTableWidget::itemSelectionChanged, this, &SprintWidget::onTabelaSelecao);
     
+    aplicarPermissoes();
     setLayout(mainLayout);
+}
+
+void SprintWidget::aplicarPermissoes() {
+    const bool isScrumMaster = currentUserRole_.toStdString() == "MESTRE SCRUM";
+    btnAdicionar_->setEnabled(isScrumMaster);
+    btnAtualizar_->setEnabled(isScrumMaster);
+    btnRemover_->setEnabled(isScrumMaster);
 }
 
 void SprintWidget::onAdicionarClicked() {

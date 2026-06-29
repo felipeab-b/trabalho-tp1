@@ -113,9 +113,37 @@ std::string CntrServicoHistoriaUsuario::escaparTexto(const std::string& valor) c
     return resultado;
 }
 
+void CntrServicoHistoriaUsuario::validarPermissao(const std::string& operacao) const {
+    if (currentUserRole_.empty()) {
+        return;
+    }
+
+    if (operacao == "CRIAR HISTORIA DE USUARIO" || operacao == "ATUALIZAR HISTORIA DE USUARIO" || operacao == "EXCLUIR HISTORIA DE USUARIO") {
+        if (currentUserRole_ != "PROPRIETARIO DE PRODUTO") {
+            throw std::invalid_argument("Acesso Negado: Apenas Proprietario de Produto pode executar esta operacao.");
+        }
+        return;
+    }
+
+    if (operacao == "ESTABELECER ASSOCIACAO HISTORIA PESSOA" || operacao == "REMOVER ASSOCIACAO HISTORIA PESSOA" || operacao == "MOVER HISTORIA PARA PLANO") {
+        if (currentUserRole_ != "MESTRE SCRUM") {
+            throw std::invalid_argument("Acesso Negado: Apenas Mestre Scrum pode executar esta operacao.");
+        }
+        return;
+    }
+
+    if (operacao == "ALTERAR ESTADO HISTORIA" || operacao == "LER HISTORIA DE USUARIO" || operacao == "LISTAR HISTORIAS DE USUARIO DE PROJETO" || operacao == "LISTAR HISTORIAS DE USUARIO DE PLANO" || operacao == "LISTAR HISTORIAS DE USUARIO DE PESSOA") {
+        if (currentUserRole_ != "PROPRIETARIO DE PRODUTO" && currentUserRole_ != "MESTRE SCRUM" && currentUserRole_ != "DESENVOLVEDOR") {
+            throw std::invalid_argument("Acesso Negado: Seu papel nao tem permissao para executar esta operacao.");
+        }
+    }
+}
+
 void CntrServicoHistoriaUsuario::criarHistoriaDeUsuario(Code code, Text title, Text role, Text action,
                                                         Text value, Time estimation, Priority priority,
                                                         Code project) {
+    validarPermissao("CRIAR HISTORIA DE USUARIO");
+
     for (const auto& historia : containerHistorias) {
         if (historia.getCode().get() == code.get()) {
             throw std::invalid_argument("Erro: Ja existe uma historia de usuario com este codigo.");
@@ -140,6 +168,8 @@ void CntrServicoHistoriaUsuario::criarHistoriaDeUsuario(Code code, Text title, T
 }
 
 UserStory CntrServicoHistoriaUsuario::lerHistoriaDeUsuario(Code code) const {
+    validarPermissao("LER HISTORIA DE USUARIO");
+
     for (const auto& historia : containerHistorias) {
         if (historia.getCode().get() == code.get()) {
             return historia;
@@ -150,6 +180,8 @@ UserStory CntrServicoHistoriaUsuario::lerHistoriaDeUsuario(Code code) const {
 
 void CntrServicoHistoriaUsuario::atualizarHistoriaDeUsuario(Code code, Text title, Text role, Text action,
                                                             Text value, Time estimation, Priority priority) {
+    validarPermissao("ATUALIZAR HISTORIA DE USUARIO");
+
     for (auto& historia : containerHistorias) {
         if (historia.getCode().get() == code.get()) {
             historia.setTitle(title);
@@ -166,6 +198,8 @@ void CntrServicoHistoriaUsuario::atualizarHistoriaDeUsuario(Code code, Text titl
 }
 
 void CntrServicoHistoriaUsuario::excluirHistoriaDeUsuario(Code code) {
+    validarPermissao("EXCLUIR HISTORIA DE USUARIO");
+
     for (auto it = containerHistorias.begin(); it != containerHistorias.end(); ++it) {
         if (it->getCode().get() == code.get()) {
             removerHistoriaNoBanco(it->getCode().get());
@@ -177,6 +211,8 @@ void CntrServicoHistoriaUsuario::excluirHistoriaDeUsuario(Code code) {
 }
 
 void CntrServicoHistoriaUsuario::associarPessoaAHistoriaDeUsuario(Code userStory, Email person) {
+    validarPermissao("ESTABELECER ASSOCIACAO HISTORIA PESSOA");
+
     auto rows = database_.query("SELECT historia FROM historias_associacoes WHERE historia='" + escaparTexto(userStory.get()) + "' AND pessoa='" + escaparTexto(person.get()) + "'");
     if (rows.empty()) {
         inserirAssociacao(userStory.get(), person.get());
@@ -190,6 +226,8 @@ void CntrServicoHistoriaUsuario::associarPessoaAHistoriaDeUsuario(Code userStory
 }
 
 void CntrServicoHistoriaUsuario::removerAssociacaoPessoaHistoriaDeUsuario(Code userStory, Email person) {
+    validarPermissao("REMOVER ASSOCIACAO HISTORIA PESSOA");
+
     removerAssociacao(userStory.get(), person.get());
     for (auto& historia : containerHistorias) {
         if (historia.getCode().get() == userStory.get()) {
@@ -201,6 +239,8 @@ void CntrServicoHistoriaUsuario::removerAssociacaoPessoaHistoriaDeUsuario(Code u
 }
 
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDeProjeto(Code project) const {
+    validarPermissao("LISTAR HISTORIAS DE USUARIO DE PROJETO");
+
     std::vector<Code> historiasDoProjeto;
     for (const auto& historia : containerHistorias) {
         if (historia.getProject().get() == project.get()) {
@@ -211,6 +251,8 @@ std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDeProjeto(
 }
 
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePlanoDeSprint(Code sprintPlan) const {
+    validarPermissao("LISTAR HISTORIAS DE USUARIO DE PLANO");
+
     std::vector<Code> historiasDoPlano;
     for (const auto& historia : containerHistorias) {
         if (historia.getSprintPlan().get() == sprintPlan.get()) {
@@ -221,6 +263,8 @@ std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePlanoDeS
 }
 
 std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePessoa(Email person) const {
+    validarPermissao("LISTAR HISTORIAS DE USUARIO DE PESSOA");
+
     std::vector<Code> historiasDaPessoa;
     std::vector<std::vector<std::string>> rows = database_.query("SELECT historia FROM historias_associacoes WHERE pessoa='" + escaparTexto(person.get()) + "'");
     for (const auto& row : rows) {
@@ -234,6 +278,8 @@ std::vector<Code> CntrServicoHistoriaUsuario::listarHistoriasDeUsuarioDePessoa(E
 }
 
 void CntrServicoHistoriaUsuario::moverHistoriaDeUsuarioParaPlanoDeSprint(Code userStory, Code project, Code sprintPlan) {
+    validarPermissao("MOVER HISTORIA PARA PLANO");
+
     if (servicoPlanoSprint == nullptr) {
         throw std::logic_error("Erro Interno: Servico de Plano de Sprint nao conectado.");
     }
@@ -268,6 +314,8 @@ void CntrServicoHistoriaUsuario::moverHistoriaDeUsuarioParaPlanoDeSprint(Code us
 }
 
 void CntrServicoHistoriaUsuario::alterarEstadoHistoriaDeUsuario(Code userStory, State state) {
+    validarPermissao("ALTERAR ESTADO HISTORIA");
+
     for (auto& historia : containerHistorias) {
         if (historia.getCode().get() == userStory.get()) {
             historia.setState(state);

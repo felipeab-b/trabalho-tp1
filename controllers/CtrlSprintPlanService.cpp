@@ -98,7 +98,28 @@ std::string CntrServicoPlanoSprint::escaparTexto(const std::string& valor) const
     return resultado;
 }
 
+void CntrServicoPlanoSprint::validarPermissao(const std::string& operacao) const {
+    if (currentUserRole_.empty()) {
+        return;
+    }
+
+    if (operacao == "CRIAR PLANO DE SPRINT" || operacao == "ATUALIZAR PLANO DE SPRINT" || operacao == "EXCLUIR PLANO DE SPRINT") {
+        if (currentUserRole_ != "MESTRE SCRUM") {
+            throw std::invalid_argument("Acesso Negado: Apenas Mestre Scrum pode executar esta operacao.");
+        }
+        return;
+    }
+
+    if (operacao == "LER PLANO DE SPRINT" || operacao == "LISTAR PLANOS DE SPRINT ASSOCIADOS A PROJETO") {
+        if (currentUserRole_ != "PROPRIETARIO DE PRODUTO" && currentUserRole_ != "MESTRE SCRUM" && currentUserRole_ != "DESENVOLVEDOR") {
+            throw std::invalid_argument("Acesso Negado: Seu papel nao tem permissao para executar esta operacao.");
+        }
+    }
+}
+
 void CntrServicoPlanoSprint::criarPlanoDeSprint(Code code, Text objective, Time capacity, Code project) {
+    validarPermissao("CRIAR PLANO DE SPRINT");
+
     for (const auto& plano : containerPlanos) {
         if (plano.getCode().get() == code.get()) {
             throw std::invalid_argument("Erro: Ja existe um plano de sprint com este codigo.");
@@ -134,6 +155,8 @@ void CntrServicoPlanoSprint::criarPlanoDeSprint(Code code, Text objective, Time 
 }
 
 SprintPlan CntrServicoPlanoSprint::lerPlanoDeSprint(Code code) const {
+    validarPermissao("LER PLANO DE SPRINT");
+
     for (const auto& plano : containerPlanos) {
         if (plano.getCode().get() == code.get()) {
             return plano;
@@ -143,6 +166,8 @@ SprintPlan CntrServicoPlanoSprint::lerPlanoDeSprint(Code code) const {
 }
 
 void CntrServicoPlanoSprint::atualizarPlanoDeSprint(Code code, Text objective, Time capacity) {
+    validarPermissao("ATUALIZAR PLANO DE SPRINT");
+
     for (auto& plano : containerPlanos) {
         if (plano.getCode().get() == code.get()) {
             plano.setObjective(objective);
@@ -155,6 +180,8 @@ void CntrServicoPlanoSprint::atualizarPlanoDeSprint(Code code, Text objective, T
 }
 
 void CntrServicoPlanoSprint::excluirPlanoDeSprint(Code code) {
+    validarPermissao("EXCLUIR PLANO DE SPRINT");
+
     for (auto it = containerPlanos.begin(); it != containerPlanos.end(); ++it) {
         if (it->getCode().get() == code.get()) {
             removerPlanoNoBanco(it->getCode().get());
@@ -166,6 +193,8 @@ void CntrServicoPlanoSprint::excluirPlanoDeSprint(Code code) {
 }
 
 std::vector<Code> CntrServicoPlanoSprint::listarPlanosDeSprintDeProjeto(Code project) const {
+    validarPermissao("LISTAR PLANOS DE SPRINT ASSOCIADOS A PROJETO");
+
     std::vector<Code> planosDoProjeto;
     for (const auto& plano : containerPlanos) {
         if (plano.getProject().get() == project.get()) {

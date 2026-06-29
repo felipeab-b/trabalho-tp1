@@ -5,8 +5,8 @@
 #include <QMessageBox>
 #include <QHeaderView>
 
-HistoriaWidget::HistoriaWidget(IUserStoryService& service, QWidget *parent)
-    : QWidget(parent), service_(service), currentProjectCode_(""), codigoSelecionado_("") {
+HistoriaWidget::HistoriaWidget(IUserStoryService& service, const QString& currentUserRole, QWidget *parent)
+    : QWidget(parent), service_(service), currentProjectCode_(""), currentUserRole_(currentUserRole), codigoSelecionado_("") {
     setupUI();
 }
 
@@ -90,7 +90,15 @@ void HistoriaWidget::setupUI() {
     connect(btnLimpar_, &QPushButton::clicked, this, &HistoriaWidget::onLimparClicked);
     connect(tabelaHistorias_, &QTableWidget::itemSelectionChanged, this, &HistoriaWidget::onTabelaSelecao);
     
+    aplicarPermissoes();
     setLayout(mainLayout);
+}
+
+void HistoriaWidget::aplicarPermissoes() {
+    const bool isProductOwner = currentUserRole_.toStdString() == "PROPRIETARIO DE PRODUTO";
+    btnAdicionar_->setEnabled(isProductOwner);
+    btnAtualizar_->setEnabled(isProductOwner);
+    btnRemover_->setEnabled(isProductOwner);
 }
 
 void HistoriaWidget::onAdicionarClicked() {

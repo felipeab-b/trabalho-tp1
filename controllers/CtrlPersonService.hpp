@@ -11,6 +11,8 @@ class CntrServicoPessoa : public IPersonService {
 private:
     std::vector<Person> containerPessoas;
     SQLiteConnection database_;
+    std::string currentUserEmail_;
+    std::string currentUserRole_;
 
     void inicializarBanco();
     void carregarPessoas();
@@ -21,6 +23,11 @@ private:
 
 public:
     explicit CntrServicoPessoa(const std::string& dbPath = "scrum.db");
+
+    void setCurrentUser(const std::string& email, const std::string& role) {
+        currentUserEmail_ = email;
+        currentUserRole_ = role;
+    }
 
     void criarPessoa(Email email, Name name, Password password, Role role) override;
     Person lerPessoa(Email email) const override;

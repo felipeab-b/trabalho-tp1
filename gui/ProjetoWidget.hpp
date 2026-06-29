@@ -11,7 +11,7 @@ class ProjetoWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ProjetoWidget(IProjectService& service, const QString& currentUserEmail = QString(), QWidget *parent = nullptr);
+    explicit ProjetoWidget(IProjectService& service, const QString& currentUserEmail = QString(), const QString& currentUserRole = QString(), QWidget *parent = nullptr);
 
 signals:
     void projetoSelecionado(const QString& code);
@@ -28,9 +28,11 @@ private:
     void setupUI();
     void exibirMensagem(const QString& titulo, const QString& mensagem, bool sucesso = true);
     void carregarProjetosDoUsuario();
+    void aplicarPermissoes();
 
     IProjectService& service_;
     QString currentUserEmail_;
+    QString currentUserRole_;
     
     QLineEdit *codigoInput_;
     QLineEdit *nomeInput_;
